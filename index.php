@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Koperasi UTM — Katalog Produk Koperasi Mahasiswa Universitas Trunojoyo Madura</title>
+  <title>Koperasi Universitas Trunojoyo Madura</title>
   <link rel="icon" type="image/png" href="img/logo-koperasi.png">
   <meta name="description" content="Katalog digital Koperasi Mahasiswa Universitas Trunojoyo Madura. Menyediakan berbagai kebutuhan mahasiswa dengan pelayanan mudah, cepat, dan terpercaya.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
       <img src="img/logo-koperasi.png" alt="Koperasi UTM" class="loader-logo-img">
     </div>
     <p class="loader-text">Koperasi UTM</p>
-    <p class="loader-sub">Koperasi Mahasiswa Universitas Trunodjoyo Madura</p>
+    <p class="loader-sub">Koperasi Universitas Trunojoyo Madura</p>
     <div class="loader-bar">
       <div class="loader-bar-fill"></div>
     </div>
@@ -33,12 +33,14 @@
       <a href="index.php" class="nav-logo">
         <img src="img/logo-koperasi.png" alt="Koperasi UTM" class="nav-logo-img"> Koperasi UTM
       </a>
-      <ul id="nav-menu" class="nav-menu">
-        <li><a href="index.php" class="nav-link active">Beranda</a></li>
-        <li><a href="profil.php" class="nav-link">Profil</a></li>
-        <li><a href="katalog.php" class="nav-link">Katalog</a></li>
-        <li><a href="kontak.php" class="nav-link">Kontak</a></li>
-      </ul>
+      <div id="nav-menu" class="nav-menu">
+        <ul class="nav-menu-list">
+          <li><a href="index.php" class="nav-link active">Beranda</a></li>
+          <li><a href="profil.php" class="nav-link">Profil</a></li>
+          <li><a href="katalog.php" class="nav-link">Katalog</a></li>
+          <li><a href="kontak.php" class="nav-link">Kontak</a></li>
+        </ul>
+      </div>
       <div class="nav-actions">
         <button class="cart-btn" aria-label="Keranjang">
           <i class="fas fa-shopping-bag"></i>
@@ -59,28 +61,17 @@
     <div class="hero-decor-line"></div>
     <div class="container hero-grid">
       <div class="hero-text" data-aos="fade-right" data-aos-duration="1000">
-        <div class="hero-badge">
-          <img src="img/logo-koperasi.png" alt="" style="height:16px;width:auto"> Koperasi Mahasiswa Universitas Trunodjoyo Madura
-        </div>
         <h1 class="hero-title">
-          Katalog Digital<br>
-          <span class="hero-title-accent">Koperasi Mahasiswa</span><br>
-          Universitas Trunodjoyo Madura
+          <span class="hero-title-accent">Koperasi</span><br>
+          <span class="hero-title-sub">Universitas Trunojoyo Madura</span>
         </h1>
+        <p class="hero-tagline">Dari Anggota, Oleh Anggota, Untuk Anggota</p>
         <p class="hero-desc">
           Menyediakan berbagai kebutuhan mahasiswa dengan pelayanan yang mudah, cepat, dan terpercaya.
         </p>
         <div class="hero-actions">
           <a href="katalog.php" class="btn-primary">Jelajahi Produk <i class="fas fa-arrow-right"></i></a>
           <a href="kontak.php" class="btn-outline">Hubungi Kami <i class="fas fa-phone-alt"></i></a>
-        </div>
-      </div>
-      <div class="hero-visual" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-        <div class="hero-visual-bg-blur"></div>
-        <div class="hero-img-stack">
-          <div class="stack-img stack-img-main">
-            <img src="img/Website-elements-768x623.png" alt="Koperasi UTM" loading="lazy">
-          </div>
         </div>
       </div>
     </div>
@@ -105,7 +96,7 @@
         </div>
         <div class="about-text" data-aos="fade-left" data-aos-delay="200">
           <span class="section-tag">Tentang Koperasi UTM</span>
-          <h2>Koperasi Mahasiswa Universitas Trunodjoyo Madura</h2>
+          <h2>Koperasi Universitas Trunojoyo Madura</h2>
           <p>Koperasi UTM adalah koperasi yang berorientasi pada pelayanan mahasiswa, mendukung ekonomi kreatif mahasiswa, dan menyediakan berbagai kebutuhan sehari-hari di lingkungan kampus.</p>
           <p>Sebagai wadah pengembangan ekonomi mahasiswa, Koperasi UTM berkomitmen untuk memberikan pelayanan terbaik dengan harga yang terjangkau dan produk yang berkualitas.</p>
           <div class="about-features">
@@ -125,7 +116,7 @@
       <div class="section-header" data-aos="fade-up">
         <span class="section-tag">Data</span>
         <h2>Statistik Koperasi UTM</h2>
-        <p>Koperasi yang terus berkembang dalam melayani kebutuhan seluruh civitas akademika Universitas Trunodjoyo Madura.</p>
+        <p>Koperasi yang terus berkembang dalam melayani kebutuhan seluruh civitas akademika Universitas Trunojoyo Madura.</p>
       </div>
       <div class="stats-grid">
         <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
@@ -215,13 +206,11 @@
       <div class="footer-brand">
         <img src="img/logo-koperasi.png" alt="Koperasi UTM" class="footer-logo-img">
         <h3>Koperasi UTM</h3>
-        <p>Koperasi Mahasiswa Universitas Trunojoyo Madura — Dari Anggota, Oleh Anggota, Untuk Anggota.</p>
+        <p>Koperasi Universitas Trunojoyo Madura — Dari Anggota, Oleh Anggota, Untuk Anggota.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
           <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-
         </div>
       </div>
       <div class="footer-links">

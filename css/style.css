@@ -240,7 +240,7 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--text);
+  color: var(--primary);
 }
 
 .nav-logo i {
@@ -286,6 +286,19 @@ button {
   display: flex;
   align-items: center;
   gap: 28px;
+}
+
+.nav-menu-list {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu-close {
+  display: none;
 }
 
 .nav-link {
@@ -335,12 +348,34 @@ button {
   justify-content: center;
   border-radius: 50%;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: 14px;
   transition: all 0.3s;
   background: var(--surface);
 }
 
 .cart-btn:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+body:has(.hero) .cart-btn {
+  color: #fff;
+  font-size: 14px;
+  background: rgba(14, 70, 43, 0.088);
+  backdrop-filter: blur(4px);
+}
+
+body:has(.hero) .cart-btn:hover {
+  color: #fff;
+  background: var(--primary);
+}
+
+body:has(.hero) #navbar.scrolled .cart-btn {
+  color: var(--text-muted);
+  background: var(--surface);
+}
+
+body:has(.hero) #navbar.scrolled .cart-btn:hover {
   color: var(--primary);
   background: var(--primary-light);
 }
@@ -377,7 +412,7 @@ button {
 .hamburger span {
   width: 22px;
   height: 2px;
-  background: var(--text);
+  background: var(--primary);
   border-radius: 2px;
   transition: all 0.3s;
 }
@@ -415,40 +450,45 @@ button {
   position: relative;
   overflow: hidden;
   background: var(--bg);
+  background-image: url('../img/cakra.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--gradient-hero);
+  background: linear-gradient(135deg, rgba(15, 81, 50, 0.65), rgba(15, 81, 50, 0.5));
   z-index: 1;
 }
 
 .hero-grid {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 48% 52%;
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 24px;
+  text-align: center;
 }
 
 .hero-text {
-  text-align: left;
+  text-align: center;
 }
 
 .hero-text .hero-desc {
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-text .hero-actions {
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 /* ===== HERO DECORATIVE ===== */
@@ -488,95 +528,46 @@ button {
   transform: rotate(-30deg);
 }
 
-/* ===== HERO IMAGE STACK ===== */
-.hero-visual {
-  position: relative;
-  height: 100%;
-  min-height: 340px;
-}
-
-.hero-visual-bg-blur {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(102, 187, 106, 0.08) 0%, transparent 70%);
-  top: 5%;
-  right: 5%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.hero-img-stack {
-  position: relative;
-  width: 100%;
-  height: 380px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stack-img {
-  position: absolute;
-  overflow: hidden;
-}
-
-.stack-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Main photo */
-.stack-img-main {
-  width: 100%;
-  max-width: 580px;
-  aspect-ratio: 480 / 340;
-  top: 35px;
-  left: 90px;
-  z-index: 5;
-}
-
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 20px;
-  background: var(--primary-light);
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  border-radius: 100px;
-  margin-bottom: 24px;
-}
-
-.hero-badge i {
-  font-size: 14px;
-}
-
 .hero-title {
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(28px, 4.5vw, 52px);
   font-weight: 700;
-  color: var(--text);
+  color: #fff;
   line-height: 1.15;
   margin-bottom: 12px;
 }
 
 .hero-title-accent {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff;
+}
+
+.hero-title-sub {
+  color: #fff;
+}
+
+@media (min-width: 769px) {
+  .hero-title-sub {
+    white-space: nowrap;
+  }
+}
+
+.hero-tagline {
+  font-size: clamp(12px, 0.9vw, 14px);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-top: 4px;
+  margin-bottom: 20px;
+  padding: 6px 20px;
+  display: inline-block;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .hero-desc {
   font-size: clamp(14px, 1vw, 16px);
-  color: var(--text-muted);
+  color: #fff;
   line-height: 1.7;
   margin-bottom: 24px;
   max-width: 580px;
@@ -631,6 +622,82 @@ button {
   transform: translateY(-2px);
 }
 
+.hero-actions .btn-outline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-actions .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+  color: #fff;
+}
+
+/* Navbar over dark hero */
+body:has(.hero) .nav-inner {
+  background: rgba(15, 81, 50, 0.3);
+  backdrop-filter: blur(8px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body:has(.hero) .nav-link::after {
+  background: #fff;
+}
+
+body:has(.hero) .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body:has(.hero) .nav-link:hover,
+body:has(.hero) .nav-link.active {
+  color: #fff;
+}
+
+body:has(.hero) .nav-link.active::after,
+body:has(.hero) .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Mobile nav menu open in hero — revert text to dark */
+body:has(.hero) .nav-menu.active .nav-link {
+  color: var(--nav-link-color);
+}
+
+body:has(.hero) .nav-menu.active .nav-link:hover,
+body:has(.hero) .nav-menu.active .nav-link.active {
+  color: var(--nav-link-hover);
+}
+
+body:has(.hero) .nav-menu.active .nav-link::after {
+  background: var(--primary);
+}
+
+body:has(.hero) .nav-logo {
+  color: #fff;
+}
+
+body:has(.hero) #navbar.scrolled .nav-inner {
+  background: var(--navbar-bg);
+  border-color: rgba(15, 81, 50, 0.15);
+}
+
+body:has(.hero) #navbar.scrolled .nav-link {
+  color: var(--nav-link-color);
+}
+
+body:has(.hero) #navbar.scrolled .nav-link::after {
+  background: var(--primary);
+}
+
+body:has(.hero) #navbar.scrolled .nav-link:hover,
+body:has(.hero) #navbar.scrolled .nav-link.active {
+  color: var(--nav-link-hover);
+}
+
+body:has(.hero) #navbar.scrolled .nav-logo {
+  color: var(--primary);
+}
+
 .btn-gold {
   display: inline-flex;
   align-items: center;
@@ -666,7 +733,7 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -1940,20 +2007,21 @@ button {
 .cart-sidebar {
   position: fixed;
   top: 0;
-  right: -400px;
+  right: 0;
   width: 400px;
   max-width: 100vw;
   height: 100vh;
   background: var(--card-bg);
   z-index: 10002;
-  box-shadow: -8px 0 40px rgba(0,0,0,0.1);
-  transition: right 0.4s ease;
   display: flex;
   flex-direction: column;
+  transform: translateX(100%);
 }
 
 .cart-sidebar.active {
-  right: 0;
+  transform: translateX(0);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.1);
+  transition: transform 0.4s ease;
 }
 
 .cart-overlay {
@@ -2666,47 +2734,6 @@ button {
    ============================================= */
 
 @media (max-width: 992px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    text-align: center;
-  }
-  .hero-text {
-    text-align: center;
-  }
-  .hero-text .hero-desc {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-text .hero-actions {
-    justify-content: center;
-  }
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .hero-text {
-    padding-left: 0;
-    text-align: center;
-  }
-  .hero-text .hero-desc {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-text .hero-actions {
-    justify-content: center;
-  }
-  .hero-visual {
-    min-height: 320px;
-  }
-  .hero-img-stack {
-    height: 360px;
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .stack-img-main {
-    max-width: 380px;
-  }
   .about-grid,
   .profile-grid,
   .contact-wrap {
@@ -2744,21 +2771,61 @@ button {
     width: 280px;
     height: 100vh;
     background: var(--card-bg);
-    flex-direction: column;
-    padding: 80px 28px 32px;
-    gap: 20px;
     transition: right 0.4s;
     box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
     z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
   }
   .nav-menu.active {
     right: 0;
   }
+  .nav-menu-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 60px 28px 32px;
+  }
+
+  .nav-menu-list li {
+    text-align: center;
+  }
+
+  .nav-menu .nav-link {
+    font-size: 15px;
+    display: inline-block;
+    padding: 8px 0 1px;
+    position: relative;
+  }
+  .nav-menu .nav-link::after {
+    bottom: -3px;
+    height: 2px;
+  }
+  .nav-menu-close {
+    display: flex;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 16px;
+    z-index: 1;
+  }
   .hamburger {
     display: flex;
+    z-index: 9999;
+    position: relative;
   }
   .nav-link {
-    font-size: 15px;
+  font-size: 16px;
   }
   .hero-actions {
     flex-direction: column;
@@ -2766,19 +2833,6 @@ button {
   }
   .hero-grid {
     gap: 24px;
-  }
-  .hero-visual {
-    min-height: 300px;
-  }
-  .hero-img-stack {
-    height: 340px;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-  .stack-img-main {
-    width: 190px;
-    height: 230px;
-    right: 10px;
   }
   .categories-grid {
     grid-template-columns: 1fr;
@@ -2864,16 +2918,6 @@ button {
   }
   .hero-title {
     font-size: clamp(26px, 10vw, 36px);
-  }
-  .hero-visual {
-    min-height: 240px;
-  }
-  .hero-img-stack {
-    height: 270px;
-  }
-  .stack-img-main {
-    max-width: 300px;
-    height: 200px;
   }
   .stats-grid {
     grid-template-columns: 1fr;

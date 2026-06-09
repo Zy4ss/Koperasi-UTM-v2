@@ -296,6 +296,15 @@ document.querySelectorAll('.nav-link').forEach(link => {
   });
 });
 
+// Nav menu close button
+const navMenuClose = document.querySelector('.nav-menu-close');
+if (navMenuClose) {
+  navMenuClose.addEventListener('click', () => {
+    if (navMenu) navMenu.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
+  });
+}
+
 /* ===== BACK TO TOP ===== */
 if (backToTop) {
   backToTop.addEventListener('click', () => {

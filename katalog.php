@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katalog Produk — Koperasi UTM</title>
+  <title>Koperasi Universitas Trunojoyo Madura</title>
   <link rel="icon" type="image/png" href="img/logo-koperasi.png">
   <meta name="description" content="Katalog produk Koperasi Mahasiswa Universitas Trunojoyo Madura. Cari dan pesan kebutuhan Anda melalui WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
   <div id="loading-screen">
     <div class="loader-icon"><img src="img/logo-koperasi.png" alt="Koperasi UTM" class="loader-logo-img"></div>
     <p class="loader-text">Koperasi UTM</p>
-    <p class="loader-sub">Koperasi Mahasiswa Universitas Trunojoyo Madura</p>
+    <p class="loader-sub">Koperasi Universitas Trunojoyo Madura</p>
     <div class="loader-bar">
       <div class="loader-bar-fill"></div>
     </div>
@@ -31,12 +31,15 @@
       <a href="index.php" class="nav-logo">
         <img src="img/logo-koperasi.png" alt="Koperasi UTM" class="nav-logo-img"> Koperasi UTM
       </a>
-      <ul id="nav-menu" class="nav-menu">
-        <li><a href="index.php" class="nav-link">Beranda</a></li>
-        <li><a href="profil.php" class="nav-link">Profil</a></li>
-        <li><a href="katalog.php" class="nav-link active">Katalog</a></li>
-        <li><a href="kontak.php" class="nav-link">Kontak</a></li>
-      </ul>
+      <div id="nav-menu" class="nav-menu">
+        <button class="nav-menu-close" onclick="document.getElementById('nav-menu').classList.remove('active');document.querySelector('.hamburger')?.classList.remove('active')">✕</button>
+        <ul class="nav-menu-list">
+          <li><a href="index.php" class="nav-link">Beranda</a></li>
+          <li><a href="profil.php" class="nav-link">Profil</a></li>
+          <li><a href="katalog.php" class="nav-link active">Katalog</a></li>
+          <li><a href="kontak.php" class="nav-link">Kontak</a></li>
+        </ul>
+      </div>
       <div class="nav-actions">
         <button class="cart-btn" aria-label="Keranjang">
           <i class="fas fa-shopping-bag"></i>
@@ -102,13 +105,11 @@
       <div class="footer-brand">
         <img src="img/logo-koperasi.png" alt="Koperasi UTM" class="footer-logo-img">
         <h3>Koperasi UTM</h3>
-        <p>Koperasi Mahasiswa Universitas Trunojoyo Madura — Dari Anggota, Oleh Anggota, Untuk Anggota.</p>
+        <p>Koperasi Universitas Trunojoyo Madura — Dari Anggota, Oleh Anggota, Untuk Anggota.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
           <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-
         </div>
       </div>
       <div class="footer-links">
