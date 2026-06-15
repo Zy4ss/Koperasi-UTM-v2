@@ -52,6 +52,7 @@
     <div class="cart-header">
       <h3>Keranjang <span id="cart-count"></span></h3>
       <button class="cart-close"><i class="fas fa-times"></i></button>
+      <div id="cart-notification" class="cart-notification"></div>
     </div>
     <div id="cart-items" class="cart-items">
       <div class="cart-empty">

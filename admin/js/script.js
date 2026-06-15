@@ -1,7 +1,4 @@
-/* ===== ADMIN DASHBOARD ===== */
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize chart if canvas exists
+document.addEventListener('DOMContentLoaded', function () {
   const chartCanvas = document.getElementById('adminChart');
   if (chartCanvas && typeof Chart !== 'undefined') {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -9,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
       grid: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(15,81,50,0.06)',
       text: isDark ? 'rgba(255,255,255,0.6)' : '#6C757D'
     };
-
     new Chart(chartCanvas, {
       type: 'line',
       data: {
@@ -37,9 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
+        plugins: { legend: { display: false } },
         scales: {
           x: {
             grid: { color: colors.grid },
@@ -51,38 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
             beginAtZero: true
           }
         },
-        interaction: {
-          intersect: false,
-          mode: 'index'
-        }
+        interaction: { intersect: false, mode: 'index' }
       }
     });
   }
-
-  // SweetAlert2 delete confirmation
-  document.querySelectorAll('.admin-btn-delete').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          title: 'Yakin ingin menghapus?',
-          text: 'Data yang dihapus tidak dapat dikembalikan!',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#dc3545',
-          cancelButtonColor: '#6C757D',
-          confirmButtonText: 'Ya, Hapus!',
-          cancelButtonText: 'Batal'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
-          }
-        });
-      } else {
-        if (confirm('Yakin ingin menghapus data ini?')) {
-          alert('Data berhasil dihapus.');
-        }
-      }
-    });
-  });
 });

@@ -1,9 +1,10 @@
+<?php require_once '_auth.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Koperasi Universitas Trunojoyo Madura</title>
+  <title>Kelola Kategori - Koperasi UTM</title>
   <link rel="icon" type="image/png" href="../img/logo-koperasi.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +14,6 @@
 </head>
 <body class="admin-body">
   <div class="admin-wrapper">
-    <!-- SIDEBAR -->
     <aside class="admin-sidebar">
       <div class="admin-sidebar-brand">
         <h3><img src="../img/logo-koperasi.png" alt="Koperasi UTM" class="admin-logo-img"> Koperasi <span>UTM</span></h3>
@@ -25,11 +25,9 @@
         <a href="kategori.php" class="active"><i class="fas fa-tags"></i> <span>Kelola Kategori</span></a>
       </nav>
       <div class="admin-sidebar-footer">
-        <a href="login.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
       </div>
     </aside>
-
-    <!-- MAIN -->
     <main class="admin-main">
       <header class="admin-header">
         <h2>Kelola Kategori</h2>
@@ -38,7 +36,6 @@
           <div class="admin-avatar"><i class="fas fa-user"></i></div>
         </div>
       </header>
-
       <div class="admin-content">
         <div class="admin-table-wrap">
           <div class="admin-table-header">
@@ -47,69 +44,35 @@
           </div>
           <table class="admin-table">
             <thead>
-              <tr>
-                <th>No</th>
-                <th>Nama Kategori</th>
-                <th>Tipe</th>
-                <th>Aksi</th>
-              </tr>
+              <tr><th>No</th><th>Nama Kategori</th><th>Tipe</th><th>Aksi</th></tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td><strong>Retail</strong></td>
-                <td><span class="badge badge-primary">Kategori Utama</span></td>
-                <td>
-                  <button class="admin-btn-sm admin-btn-edit" onclick="editKategori(1)"><i class="fas fa-edit"></i></button>
-                  <button class="admin-btn-sm admin-btn-delete" onclick="hapusKategori(1)"><i class="fas fa-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td><strong style="margin-left:24px">— Makanan</strong></td>
-                <td><span class="badge badge-accent">Subkategori</span></td>
-                <td>
-                  <button class="admin-btn-sm admin-btn-edit" onclick="editKategori(2)"><i class="fas fa-edit"></i></button>
-                  <button class="admin-btn-sm admin-btn-delete" onclick="hapusKategori(2)"><i class="fas fa-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td><strong style="margin-left:24px">— Minuman</strong></td>
-                <td><span class="badge badge-accent">Subkategori</span></td>
-                <td>
-                  <button class="admin-btn-sm admin-btn-edit" onclick="editKategori(3)"><i class="fas fa-edit"></i></button>
-                  <button class="admin-btn-sm admin-btn-delete" onclick="hapusKategori(3)"><i class="fas fa-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td><strong>Konsinyasi</strong></td>
-                <td><span class="badge badge-premium">Kategori Utama</span></td>
-                <td>
-                  <button class="admin-btn-sm admin-btn-edit" onclick="editKategori(4)"><i class="fas fa-edit"></i></button>
-                  <button class="admin-btn-sm admin-btn-delete" onclick="hapusKategori(4)"><i class="fas fa-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td><strong>Lainnya</strong></td>
-                <td><span class="badge badge-primary">Kategori Utama</span></td>
-                <td>
-                  <button class="admin-btn-sm admin-btn-edit" onclick="editKategori(5)"><i class="fas fa-edit"></i></button>
-                  <button class="admin-btn-sm admin-btn-delete" onclick="hapusKategori(5)"><i class="fas fa-trash"></i></button>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="kategori-tbody"></tbody>
           </table>
         </div>
       </div>
     </main>
   </div>
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../admin/js/script.js"></script>
   <script>
+    async function loadKategori() {
+      const res = await fetch('../api/kategori.php');
+      const data = await res.json();
+      const tbody = document.getElementById('kategori-tbody');
+      tbody.innerHTML = data.map((k, i) => {
+        const badgeClass = k.tipe === 'utama' ? 'badge-primary' : 'badge-accent';
+        const indent = k.tipe === 'sub' ? 'style="margin-left:24px"' : '';
+        return `<tr>
+          <td>${i + 1}</td>
+          <td><strong ${indent}>${k.nama}</strong></td>
+          <td><span class="badge ${badgeClass}">${k.tipe === 'utama' ? 'Kategori Utama' : 'Subkategori'}</span></td>
+          <td>
+            <button class="admin-btn-sm admin-btn-edit" onclick="editKategori(${k.id}, '${k.nama}', '${k.tipe}')"><i class="fas fa-edit"></i></button>
+            <button class="admin-btn-sm admin-btn-delete" onclick="hapusKategori(${k.id})"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
     function tambahKategori() {
       Swal.fire({
         title: 'Tambah Kategori',
@@ -130,29 +93,53 @@
           if (!nama) { Swal.showValidationMessage('Nama kategori harus diisi'); }
           return nama;
         }
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
+          const fd = new FormData();
+          fd.append('action', 'create');
+          fd.append('nama', result.value);
+          fd.append('tipe', document.getElementById('swal-tipe').value);
+          await fetch('../api/kategori.php', { method: 'POST', body: fd });
           Swal.fire('Berhasil!', 'Kategori berhasil ditambahkan.', 'success');
+          loadKategori();
         }
       });
     }
-    function editKategori(id) {
+
+    function editKategori(id, nama, tipe) {
       Swal.fire({
         title: 'Edit Kategori',
-        input: 'text',
-        inputValue: 'Retail',
-        inputPlaceholder: 'Nama kategori',
+        html: `
+          <input id="swal-nama" class="swal2-input" placeholder="Nama kategori" value="${nama}">
+          <select id="swal-tipe" class="swal2-input" style="padding:10px">
+            <option value="utama" ${tipe === 'utama' ? 'selected' : ''}>Kategori Utama</option>
+            <option value="sub" ${tipe === 'sub' ? 'selected' : ''}>Subkategori</option>
+          </select>
+        `,
         confirmButtonText: 'Simpan',
         showCancelButton: true,
         cancelButtonText: 'Batal',
         confirmButtonColor: '#0F5132',
-        cancelButtonColor: '#6C757D'
-      }).then((result) => {
+        cancelButtonColor: '#6C757D',
+        preConfirm: () => {
+          const n = document.getElementById('swal-nama').value;
+          if (!n) { Swal.showValidationMessage('Nama kategori harus diisi'); }
+          return n;
+        }
+      }).then(async (result) => {
         if (result.isConfirmed) {
+          const fd = new FormData();
+          fd.append('action', 'update');
+          fd.append('id', id);
+          fd.append('nama', result.value);
+          fd.append('tipe', document.getElementById('swal-tipe').value);
+          await fetch('../api/kategori.php', { method: 'POST', body: fd });
           Swal.fire('Berhasil!', 'Kategori berhasil diperbarui.', 'success');
+          loadKategori();
         }
       });
     }
+
     function hapusKategori(id) {
       Swal.fire({
         title: 'Yakin ingin menghapus?',
@@ -163,12 +150,19 @@
         cancelButtonColor: '#6C757D',
         confirmButtonText: 'Ya, Hapus!',
         cancelButtonText: 'Batal'
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
+          const fd = new FormData();
+          fd.append('action', 'delete');
+          fd.append('id', id);
+          await fetch('../api/kategori.php', { method: 'POST', body: fd });
           Swal.fire('Terhapus!', 'Kategori berhasil dihapus.', 'success');
+          loadKategori();
         }
       });
     }
+
+    loadKategori();
   </script>
 </body>
 </html>

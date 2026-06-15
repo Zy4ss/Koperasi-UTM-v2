@@ -25,7 +25,8 @@
     </div>
   </div>
 
-<?php $active = 'profil'; include 'inc/navbar.php'; ?>
+  <?php $active = 'profil';
+  include 'inc/navbar.php'; ?>
 
   <!-- PAGE HERO -->
   <section class="page-hero">
@@ -52,7 +53,7 @@
           <p>Kami berkomitmen untuk terus berinovasi dalam memberikan pelayanan terbaik, mendukung ekonomi kreatif mahasiswa, dan memperkuat kebersamaan di lingkungan kampus.</p>
         </div>
         <div class="profile-img-wrap" data-aos="fade-left" data-aos-delay="100">
-          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80" alt="Kegiatan Koperasi UTM" loading="lazy">
+          <img src="img/layanan/cakra.jpeg" alt="Kegiatan Koperasi UTM" loading="lazy">
         </div>
       </div>
     </div>
@@ -101,6 +102,10 @@
         <p>Dokumentasi kegiatan dan aktivitas Koperasi UTM di lingkungan Universitas Trunojoyo Madura.</p>
       </div>
       <div class="gallery-grid">
+        <div class="gallery-item" data-aos="fade-up" data-aos-delay="150">
+          <img src="img/kegiatan/RAT Tahun Buku 2025.webp" alt="Kegiatan Rapat" loading="lazy">
+          <div class="gallery-overlay"><span>RAT Tahun Buku 2025</span></div>
+        </div>
         <div class="gallery-item" data-aos="fade-up" data-aos-delay="0">
           <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&q=80" alt="Kegiatan Koperasi" loading="lazy">
           <div class="gallery-overlay"><span>Kegiatan Pelayanan</span></div>
@@ -112,10 +117,6 @@
         <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
           <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&q=80" alt="Produk Koperasi" loading="lazy">
           <div class="gallery-overlay"><span>Produk Koperasi</span></div>
-        </div>
-        <div class="gallery-item" data-aos="fade-up" data-aos-delay="150">
-          <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80" alt="Kegiatan Rapat" loading="lazy">
-          <div class="gallery-overlay"><span>Rapat Pengurus</span></div>
         </div>
         <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
           <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=400&q=80" alt="Suasana Kampus" loading="lazy">
@@ -129,4 +130,4 @@
     </div>
   </section>
 
-<?php include 'inc/footer.php'; ?>
+  <?php include 'inc/footer.php'; ?>

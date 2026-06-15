@@ -27,7 +27,8 @@
     </div>
   </div>
 
-<?php $active = 'beranda'; include 'inc/navbar.php'; ?>
+  <?php $active = 'beranda';
+  include 'inc/navbar.php'; ?>
 
   <!-- HERO -->
   <section id="hero" class="hero">
@@ -62,9 +63,9 @@
       <div class="about-grid">
         <div class="about-image" data-aos="fade-right" data-aos-delay="100">
           <div class="about-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80" alt="Kegiatan Koperasi Mahasiswa" loading="lazy">
+            <img src="img/layanan/koperasi.jpeg" alt="Kegiatan Koperasi Mahasiswa" loading="lazy">
             <div class="about-badge-exp">
-              <strong>Sejak 2018</strong>
+              <strong>Sejak 1997</strong>
               <span>Melayani Mahasiswa</span>
             </div>
           </div>
@@ -86,33 +87,67 @@
   </section>
 
   <!-- STATISTIK -->
-  <section id="statistik" class="section statistics">
+  <section id="layanan" class="section services">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Data</span>
-        <h2>Statistik Koperasi UTM</h2>
-        <p>Koperasi yang terus berkembang dalam melayani kebutuhan seluruh civitas akademika Universitas Trunojoyo Madura.</p>
+        <span class="section-tag">Layanan</span>
+        <h2>Layanan Koperasi UTM</h2>
+        <p>Berbagai layanan yang tersedia untuk memenuhi kebutuhan seluruh civitas akademika Universitas Trunojoyo Madura.</p>
       </div>
-      <div class="stats-grid">
-        <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
-          <i class="fas fa-box"></i>
-          <span class="stat-number" data-target="48">0</span>
-          <span class="stat-label">Total Produk</span>
+      <div class="services-grid">
+        <div class="service-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="service-img">
+            <img src="img/layanan/minimarket.jpeg" alt="Mini Market" loading="lazy">
+          </div>
+          <div class="service-info">
+            <h3>Mini Market</h3>
+            <p>Kebutuhan pokok dan perlengkapan sehari-hari dengan harga terjangkau.</p>
+          </div>
         </div>
-        <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
-          <i class="fas fa-tags"></i>
-          <span class="stat-number" data-target="5">0</span>
-          <span class="stat-label">Total Kategori</span>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-img">
+            <img src="img/layanan/koperasi.jpeg" alt="Cafe Time Secret Space" loading="lazy">
+          </div>
+          <div class="service-info">
+            <h3>Cafe Time Secret Space</h3>
+            <p>Tempat nongkrong santai dengan berbagai menu kopi dan minuman kekinian, serta spot aesthetic untuk foto dan bersantai.</p>
+          </div>
         </div>
-        <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
-          <i class="fas fa-shopping-bag"></i>
-          <span class="stat-number" data-target="32">0</span>
-          <span class="stat-label">Produk Retail</span>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-img">
+            <i class="fas fa-tshirt"></i>
+          </div>
+          <div class="service-info">
+            <h3>Merchandise</h3>
+            <p>Beragam merchandise eksklusif Universitas Trunojoyo Madura.</p>
+          </div>
         </div>
-        <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
-          <i class="fas fa-handshake"></i>
-          <span class="stat-number" data-target="16">0</span>
-          <span class="stat-label">Produk Konsinyasi</span>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="150">
+          <div class="service-img">
+            <i class="fas fa-cookie-bite"></i>
+          </div>
+          <div class="service-info">
+            <h3>Snack &amp; Minuman</h3>
+            <p>Aneka cemilan dan minuman segar untuk menemani aktivitas perkuliahan.</p>
+          </div>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-img">
+            <i class="fas fa-pen-fancy"></i>
+          </div>
+          <div class="service-info">
+            <h3>Alat Tulis</h3>
+            <p>Perlengkapan kuliah lengkap mulai dari pulpen, buku, hingga aksesoris kantor.</p>
+          </div>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="250">
+          <div class="service-img">
+            <i class="fas fa-file-invoice"></i>
+          </div>
+          <div class="service-info">
+            <h3>Pembayaran STNK</h3>
+            <p>Layanan pembayaran pajak STNK kendaraan bermotor dengan proses cepat.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -175,4 +210,4 @@
     </div>
   </section>
 
-<?php include 'inc/footer.php'; ?>
+  <?php include 'inc/footer.php'; ?>
