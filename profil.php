@@ -32,7 +32,7 @@
   <section class="page-hero">
     <div class="container">
       <h1 data-aos="fade-up">Profil Koperasi UTM</h1>
-      <p data-aos="fade-up" data-aos-delay="50">Mengenal lebih dekat Koperasi Mahasiswa Universitas Trunojoyo Madura</p>
+      <p data-aos="fade-up" data-aos-delay="50">Mengenal lebih dekat Koperasi Universitas Trunojoyo Madura</p>
       <div class="breadcrumb" data-aos="fade-up" data-aos-delay="100">
         <a href="index.php">Beranda</a>
         <i class="fas fa-chevron-right"></i>
@@ -44,16 +44,16 @@
   <!-- TENTANG -->
   <section class="profile-about">
     <div class="container">
-      <div class="profile-grid">
-        <div class="profile-text" data-aos="fade-right">
-          <span class="section-tag">Tentang Kami</span>
-          <h2>Koperasi Mahasiswa Universitas Trunojoyo Madura</h2>
-          <p>Koperasi UTM berdiri sebagai wadah pengembangan ekonomi mahasiswa di lingkungan Universitas Trunojoyo Madura. Berawal dari keprihatinan terhadap mahalnya harga kebutuhan pokok di sekitar kampus, sekelompok mahasiswa berinisiatif mendirikan koperasi yang menyediakan kebutuhan sehari-hari dengan harga terjangkau.</p>
-          <p>Sejak tahun 2018, Koperasi UTM telah berkembang menjadi salah satu unit kegiatan mahasiswa yang aktif dan memberikan manfaat nyata bagi seluruh civitas akademika UTM, termasuk mahasiswa, dosen, dan tenaga kependidikan.</p>
-          <p>Kami berkomitmen untuk terus berinovasi dalam memberikan pelayanan terbaik, mendukung ekonomi kreatif mahasiswa, dan memperkuat kebersamaan di lingkungan kampus.</p>
-        </div>
-        <div class="profile-img-wrap" data-aos="fade-left" data-aos-delay="100">
+      <div class="profile-content">
+        <span class="section-tag" data-aos="fade-up">Tentang Kami</span>
+        <h2 data-aos="fade-up" data-aos-delay="50">Koperasi Universitas Trunojoyo Madura</h2>
+        <div class="profile-img-wrap" data-aos="fade-up" data-aos-delay="100">
           <img src="img/layanan/cakra.jpeg" alt="Kegiatan Koperasi UTM" loading="lazy">
+        </div>
+        <div class="profile-text" data-aos="fade-up" data-aos-delay="150">
+          <p>Koperasi UTM berdiri sebagai wadah pengembangan ekonomi mahasiswa di lingkungan Universitas Trunojoyo Madura. Berawal dari keprihatinan terhadap mahalnya harga kebutuhan pokok di sekitar kampus, sekelompok mahasiswa berinisiatif mendirikan koperasi yang menyediakan kebutuhan sehari-hari dengan harga terjangkau.</p>
+          <p>Sejak tahun 1997, Koperasi UTM telah berkembang menjadi salah satu unit kegiatan mahasiswa yang aktif dan memberikan manfaat nyata bagi seluruh civitas akademika UTM, termasuk mahasiswa, dosen, dan tenaga kependidikan.</p>
+          <p>Kami berkomitmen untuk terus berinovasi dalam memberikan pelayanan terbaik, mendukung ekonomi kreatif mahasiswa, dan memperkuat kebersamaan di lingkungan kampus.</p>
         </div>
       </div>
     </div>
@@ -86,6 +86,94 @@
             <div class="vm-misi-item">
               <div class="vm-misi-num">3</div>
               <div class="vm-misi-text">Menjadi Organisasi yang Transparan dengan Good Corporate Governance.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRUKTUR ORGANISASI -->
+  <section class="struktur">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Struktur Organisasi</span>
+        <h2>Struktural Pengurus</h2>
+        <p>Susunan kepengurusan Koperasi Universitas Trunojoyo Madura periode 2025/2026.</p>
+      </div>
+      <div class="struktur-tree" data-aos="fade-up" data-aos-delay="0">
+        <div class="tree-level tree-level-1">
+          <div class="tree-node">
+            <div class="struktur-card ketua">
+              <div class="struktur-avatar"><i class="fas fa-user-tie"></i></div>
+              <h4>Ketua</h4>
+              <p class="struktur-nama">Ahmad Fauzi</p>
+              <span class="struktur-label">Ketua Umum</span>
+            </div>
+          </div>
+        </div>
+        <div class="tree-connector"></div>
+        <div class="tree-level tree-level-2">
+          <div class="tree-node">
+            <div class="struktur-card wakil">
+              <div class="struktur-avatar"><i class="fas fa-user-tie"></i></div>
+              <h4>Wakil Ketua</h4>
+              <p class="struktur-nama">Siti Nurhaliza</p>
+              <span class="struktur-label">Wakil Ketua</span>
+            </div>
+          </div>
+        </div>
+        <div class="tree-connector tree-connector-split"></div>
+        <div class="tree-level tree-level-3">
+          <div class="tree-node">
+            <div class="struktur-card sekretaris">
+              <div class="struktur-avatar"><i class="fas fa-user-edit"></i></div>
+              <h4>Sekretaris</h4>
+              <p class="struktur-nama">Rina Amelia</p>
+              <span class="struktur-label">Sekretaris Umum</span>
+            </div>
+          </div>
+          <div class="tree-node">
+            <div class="struktur-card bendahara">
+              <div class="struktur-avatar"><i class="fas fa-user-check"></i></div>
+              <h4>Bendahara</h4>
+              <p class="struktur-nama">Budi Santoso</p>
+              <span class="struktur-label">Bendahara Umum</span>
+            </div>
+          </div>
+        </div>
+        <div class="tree-connector tree-connector-split"></div>
+        <div class="tree-level tree-level-4">
+          <div class="tree-node">
+            <div class="struktur-card bidang1">
+              <div class="struktur-avatar"><i class="fas fa-store"></i></div>
+              <h4>Bidang Usaha</h4>
+              <p class="struktur-nama">Dewi Lestari</p>
+              <span class="struktur-label">Koordinator</span>
+            </div>
+          </div>
+          <div class="tree-node">
+            <div class="struktur-card bidang2">
+              <div class="struktur-avatar"><i class="fas fa-handshake"></i></div>
+              <h4>Bidang Humas</h4>
+              <p class="struktur-nama">Hendra Gunawan</p>
+              <span class="struktur-label">Koordinator</span>
+            </div>
+          </div>
+          <div class="tree-node">
+            <div class="struktur-card bidang3">
+              <div class="struktur-avatar"><i class="fas fa-graduation-cap"></i></div>
+              <h4>Bidang Pendidikan</h4>
+              <p class="struktur-nama">Maya Sari</p>
+              <span class="struktur-label">Koordinator</span>
+            </div>
+          </div>
+          <div class="tree-node">
+            <div class="struktur-card bidang4">
+              <div class="struktur-avatar"><i class="fas fa-chart-line"></i></div>
+              <h4>Bidang Keuangan</h4>
+              <p class="struktur-nama">Agus Wijaya</p>
+              <span class="struktur-label">Koordinator</span>
             </div>
           </div>
         </div>

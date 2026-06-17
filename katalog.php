@@ -49,13 +49,31 @@
           <i class="fas fa-search"></i>
           <input type="text" id="catalog-search-input" placeholder="Cari produk..." autocomplete="off">
         </div>
-        <select id="catalog-sort" class="catalog-sort">
-          <option value="terbaru">Terbaru</option>
-          <option value="nama-asc">Nama A-Z</option>
-          <option value="nama-desc">Nama Z-A</option>
-          <option value="harga-termurah">Harga Termurah</option>
-          <option value="harga-tertinggi">Harga Tertinggi</option>
-        </select>
+        <div class="catalog-sort-wrap">
+          <i class="fas fa-arrow-down-wide-short"></i>
+          <div class="custom-select" id="catalog-sort">
+            <button type="button" class="custom-select-trigger catalog-sort">
+              <span>Terbaru</span>
+            </button>
+            <div class="custom-select-menu">
+              <div class="custom-select-option selected" data-value="terbaru">
+                <span>Terbaru</span>
+              </div>
+              <div class="custom-select-option" data-value="nama-asc">
+                <span>Nama A-Z</span>
+              </div>
+              <div class="custom-select-option" data-value="nama-desc">
+                <span>Nama Z-A</span>
+              </div>
+              <div class="custom-select-option" data-value="harga-termurah">
+                <span>Harga Termurah</span>
+              </div>
+              <div class="custom-select-option" data-value="harga-tertinggi">
+                <span>Harga Tertinggi</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- FILTERS -->

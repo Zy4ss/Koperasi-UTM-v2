@@ -400,6 +400,90 @@ function setSort(sort) {
   renderCatalog();
 }
 
+/* ===== CUSTOM SELECT ===== */
+function initCustomSelect() {
+  const customSelect = document.querySelector('.custom-select');
+  if (!customSelect) return;
+
+  const trigger = customSelect.querySelector('.custom-select-trigger');
+  const menu = customSelect.querySelector('.custom-select-menu');
+  let options = customSelect.querySelectorAll('.custom-select-option');
+  const label = trigger.querySelector('span');
+  let currentIndex = 0;
+
+  function selectOption(opt) {
+    const value = opt.dataset.value;
+    const text = opt.querySelector('span').textContent;
+    label.textContent = text;
+    options.forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    menu.classList.remove('open');
+    trigger.classList.remove('active');
+    setSort(value);
+  }
+
+  function updateHighlight(index) {
+    options.forEach(o => o.classList.remove('highlighted'));
+    if (index >= 0 && index < options.length) {
+      options[index].classList.add('highlighted');
+      options[index].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const opening = !menu.classList.contains('open');
+    menu.classList.toggle('open');
+    trigger.classList.toggle('active');
+    if (opening) {
+      currentIndex = Array.from(options).findIndex(o => o.classList.contains('selected'));
+      if (currentIndex < 0) currentIndex = 0;
+      updateHighlight(currentIndex);
+    }
+  });
+
+  options.forEach((opt, i) => {
+    opt.addEventListener('click', () => selectOption(opt));
+  });
+
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!menu.classList.contains('open')) {
+        menu.classList.add('open');
+        trigger.classList.add('active');
+        currentIndex = Array.from(options).findIndex(o => o.classList.contains('selected'));
+        if (currentIndex < 0) currentIndex = 0;
+        updateHighlight(currentIndex);
+        return;
+      }
+      if (e.key === 'ArrowDown') {
+        currentIndex = Math.min(currentIndex + 1, options.length - 1);
+      } else {
+        currentIndex = Math.max(currentIndex - 1, 0);
+      }
+      updateHighlight(currentIndex);
+    }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (menu.classList.contains('open') && currentIndex >= 0) {
+        selectOption(options[currentIndex]);
+      }
+    }
+    if (e.key === 'Escape') {
+      menu.classList.remove('open');
+      trigger.classList.remove('active');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!customSelect.contains(e.target)) {
+      menu.classList.remove('open');
+      trigger.classList.remove('active');
+    }
+  });
+}
+
 /* ===== SEARCH ===== */
 function handleSearch(e) {
   searchQuery = e.target.value;
@@ -473,7 +557,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const searchInput = document.getElementById('catalog-search-input');
   if (searchInput) searchInput.addEventListener('input', handleSearch);
 
-  // Sort select
-  const sortSelect = document.getElementById('catalog-sort');
-  if (sortSelect) sortSelect.addEventListener('change', (e) => setSort(e.target.value));
+  // Custom sort select
+  initCustomSelect();
 });

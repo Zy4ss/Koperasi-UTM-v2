@@ -14,7 +14,7 @@ $conn->query("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLL
 $conn->select_db($dbname);
 $conn->set_charset('utf8mb4');
 
-function res($data, $code = 200) {
+function res(mixed $data, int $code = 200) {
   http_response_code($code);
   header('Content-Type: application/json');
   echo json_encode($data);

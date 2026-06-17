@@ -1,6 +1,20 @@
 <?php
 require_once __DIR__ . '/../inc/db.php';
 
+$conn->query("CREATE TABLE IF NOT EXISTS `users` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(50) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+$result = $conn->query("SELECT COUNT(*) AS cnt FROM users");
+$row = $result->fetch_assoc();
+if ($row['cnt'] == 0) {
+  $hash = password_hash('kopma123', PASSWORD_DEFAULT);
+  $conn->query("INSERT INTO `users` (`username`, `password`) VALUES ('admin', '$hash')");
+}
+
 $conn->query("CREATE TABLE IF NOT EXISTS `kategori` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `nama` VARCHAR(100) NOT NULL,
