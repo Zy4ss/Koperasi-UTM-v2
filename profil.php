@@ -98,82 +98,64 @@
     <div class="container">
       <div class="section-header" data-aos="fade-up">
         <span class="section-tag">Struktur Organisasi</span>
-        <h2>Struktural Pengurus</h2>
+        <h2>Susunan Pengurus</h2>
         <p>Susunan kepengurusan Koperasi Universitas Trunojoyo Madura periode 2025/2026.</p>
       </div>
       <div class="struktur-tree" data-aos="fade-up" data-aos-delay="0">
         <div class="tree-level tree-level-1">
           <div class="tree-node">
             <div class="struktur-card ketua">
-              <div class="struktur-avatar"><i class="fas fa-user-tie"></i></div>
+              <div class="struktur-avatar"><img src="img/pengurus/FAIDAL.jpeg" alt="Faidal"></div>
               <h4>Ketua</h4>
-              <p class="struktur-nama">Ahmad Fauzi</p>
-              <span class="struktur-label">Ketua Umum</span>
+              <p class="struktur-nama">Faidal</p>
             </div>
           </div>
         </div>
         <div class="tree-connector"></div>
         <div class="tree-level tree-level-2">
           <div class="tree-node">
-            <div class="struktur-card wakil">
-              <div class="struktur-avatar"><i class="fas fa-user-tie"></i></div>
-              <h4>Wakil Ketua</h4>
-              <p class="struktur-nama">Siti Nurhaliza</p>
-              <span class="struktur-label">Wakil Ketua</span>
+            <div class="struktur-card bendahara">
+              <div class="struktur-avatar"><img src="img/pengurus/TRIMULYANI BUDIANINGSIH.jpeg" alt="Trimulyani Budianingsih"></div>
+              <h4>Bendahara</h4>
+              <p class="struktur-nama">Trimulyani Budianingsih</p>
+            </div>
+          </div>
+          <div class="tree-node">
+            <div class="struktur-card sekretaris">
+              <div class="struktur-avatar"><img src="img/pengurus/R AYU FAUZIYAH FIERDAUS.jpeg" alt="R Ayu Fauziyah Fierdaus"></div>
+              <h4>Sekretaris</h4>
+              <p class="struktur-nama">R Ayu Fauziyah Fierdaus</p>
+            </div>
+          </div>
+          <div class="tree-node">
+            <div class="struktur-card pengawas">
+              <div class="struktur-avatar"><img src="img/pengurus/R SRI KENTJANAWATI.jpeg" alt="R Sri Kentjanawati"></div>
+              <h4>Pengawas</h4>
+              <p class="struktur-nama">R Sri Kentjanawati</p>
             </div>
           </div>
         </div>
         <div class="tree-connector tree-connector-split"></div>
         <div class="tree-level tree-level-3">
           <div class="tree-node">
-            <div class="struktur-card sekretaris">
-              <div class="struktur-avatar"><i class="fas fa-user-edit"></i></div>
-              <h4>Sekretaris</h4>
-              <p class="struktur-nama">Rina Amelia</p>
-              <span class="struktur-label">Sekretaris Umum</span>
+            <div class="struktur-card sie1">
+              <div class="struktur-avatar"><img src="img/pengurus/MOH AJIB.jpeg" alt="Moh. Ajib"></div>
+              <h4>Sie Perlengkapan</h4>
+              <p class="struktur-nama">Moh. Ajib</p>
             </div>
           </div>
           <div class="tree-node">
-            <div class="struktur-card bendahara">
-              <div class="struktur-avatar"><i class="fas fa-user-check"></i></div>
-              <h4>Bendahara</h4>
-              <p class="struktur-nama">Budi Santoso</p>
-              <span class="struktur-label">Bendahara Umum</span>
-            </div>
-          </div>
-        </div>
-        <div class="tree-connector tree-connector-split"></div>
-        <div class="tree-level tree-level-4">
-          <div class="tree-node">
-            <div class="struktur-card bidang1">
-              <div class="struktur-avatar"><i class="fas fa-store"></i></div>
-              <h4>Bidang Usaha</h4>
-              <p class="struktur-nama">Dewi Lestari</p>
-              <span class="struktur-label">Koordinator</span>
+            <div class="struktur-card sie2">
+              <div class="struktur-avatar"><img src="img/pengurus/ABD HALIM.jpeg" alt="Abd. Halim"></div>
+              <h4>Sie Usaha</h4>
+              <p class="struktur-nama">Abd. Halim</p>
             </div>
           </div>
           <div class="tree-node">
-            <div class="struktur-card bidang2">
-              <div class="struktur-avatar"><i class="fas fa-handshake"></i></div>
-              <h4>Bidang Humas</h4>
-              <p class="struktur-nama">Hendra Gunawan</p>
-              <span class="struktur-label">Koordinator</span>
-            </div>
-          </div>
-          <div class="tree-node">
-            <div class="struktur-card bidang3">
-              <div class="struktur-avatar"><i class="fas fa-graduation-cap"></i></div>
-              <h4>Bidang Pendidikan</h4>
-              <p class="struktur-nama">Maya Sari</p>
-              <span class="struktur-label">Koordinator</span>
-            </div>
-          </div>
-          <div class="tree-node">
-            <div class="struktur-card bidang4">
-              <div class="struktur-avatar"><i class="fas fa-chart-line"></i></div>
-              <h4>Bidang Keuangan</h4>
-              <p class="struktur-nama">Agus Wijaya</p>
-              <span class="struktur-label">Koordinator</span>
+            <div class="struktur-card sie2">
+              <div class="struktur-avatar"><img src="img/pengurus/ANISAH.jpeg" alt="Anisah"></div>
+              <h4>Sie Usaha</h4>
+              <p class="struktur-nama">Anisah</p>
             </div>
           </div>
         </div>
