@@ -319,6 +319,7 @@ function renderHomeProducts() {
 
 /* ===== CATALOG ===== */
 let currentFilter = 'Semua Produk';
+let currentSubFilter = 'Semua';
 let currentSort = 'terbaru';
 let searchQuery = '';
 
@@ -336,14 +337,10 @@ function renderCatalog() {
   }
 
   if (currentFilter !== 'Semua Produk') {
-    if (currentFilter === 'Makanan' || currentFilter === 'Minuman') {
-      filtered = filtered.filter(p => p.subkategori === currentFilter);
-    } else if (currentFilter === 'Retail') {
-      filtered = filtered.filter(p => p.kategori === 'Retail');
-    } else if (currentFilter === 'Konsinyasi') {
-      filtered = filtered.filter(p => p.kategori === 'Konsinyasi');
-    } else if (currentFilter === 'Lainnya') {
-      filtered = filtered.filter(p => p.kategori === 'Lainnya');
+    if (currentSubFilter !== 'Semua') {
+      filtered = filtered.filter(p => p.kategori === currentFilter && p.subkategori === currentSubFilter);
+    } else {
+      filtered = filtered.filter(p => p.kategori === currentFilter);
     }
   }
 
@@ -389,8 +386,25 @@ function renderCatalog() {
 
 function setFilter(filter) {
   currentFilter = filter;
+  currentSubFilter = 'Semua';
   document.querySelectorAll('.filter-btn').forEach(btn => {
+    if (btn.closest('.filter-select')) return;
     btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+  document.querySelectorAll('.filter-select').forEach(el => {
+    const label = el.querySelector('.custom-select-trigger span');
+    const defaultOpt = el.querySelector('.custom-select-option.selected');
+    label.textContent = el.dataset.category;
+  });
+  renderCatalog();
+}
+
+function setSubFilter(category, subkategori) {
+  currentFilter = category;
+  currentSubFilter = subkategori;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    if (btn.closest('.filter-select')) return;
+    btn.classList.remove('active');
   });
   renderCatalog();
 }
@@ -401,13 +415,12 @@ function setSort(sort) {
 }
 
 /* ===== CUSTOM SELECT ===== */
-function initCustomSelect() {
-  const customSelect = document.querySelector('.custom-select');
-  if (!customSelect) return;
+function initCustomSelect(container) {
+  const trigger = container.querySelector('.custom-select-trigger');
+  const menu = container.querySelector('.custom-select-menu');
+  const options = container.querySelectorAll('.custom-select-option');
+  if (!trigger || !menu || !options.length) return;
 
-  const trigger = customSelect.querySelector('.custom-select-trigger');
-  const menu = customSelect.querySelector('.custom-select-menu');
-  let options = customSelect.querySelectorAll('.custom-select-option');
   const label = trigger.querySelector('span');
   let currentIndex = 0;
 
@@ -419,7 +432,13 @@ function initCustomSelect() {
     opt.classList.add('selected');
     menu.classList.remove('open');
     trigger.classList.remove('active');
-    setSort(value);
+
+    const category = container.dataset.category;
+    if (category) {
+      setSubFilter(category, value);
+    } else {
+      setSort(value);
+    }
   }
 
   function updateHighlight(index) {
@@ -442,7 +461,7 @@ function initCustomSelect() {
     }
   });
 
-  options.forEach((opt, i) => {
+  options.forEach((opt) => {
     opt.addEventListener('click', () => selectOption(opt));
   });
 
@@ -477,7 +496,7 @@ function initCustomSelect() {
   });
 
   document.addEventListener('click', (e) => {
-    if (!customSelect.contains(e.target)) {
+    if (!container.contains(e.target)) {
       menu.classList.remove('open');
       trigger.classList.remove('active');
     }
@@ -541,6 +560,13 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeMod
 document.addEventListener('DOMContentLoaded', async () => {
   await loadProduk();
 
+  // Apply filter from URL param
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterParam = urlParams.get('filter');
+  if (filterParam && filterParam !== 'Semua Produk') {
+    setFilter(filterParam);
+  }
+
   renderHomeProducts();
   renderCatalog();
   updateCartBadge();
@@ -557,6 +583,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const searchInput = document.getElementById('catalog-search-input');
   if (searchInput) searchInput.addEventListener('input', handleSearch);
 
-  // Custom sort select
-  initCustomSelect();
+  // Custom selects (sort + filter)
+  document.querySelectorAll('.custom-select').forEach(initCustomSelect);
 });

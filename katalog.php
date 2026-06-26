@@ -79,11 +79,40 @@
       <!-- FILTERS -->
       <div class="catalog-filters" data-aos="fade-up" data-aos-delay="50">
         <button class="filter-btn active" data-filter="Semua Produk" onclick="setFilter('Semua Produk')">Semua Produk</button>
-        <button class="filter-btn" data-filter="Retail" onclick="setFilter('Retail')">Retail</button>
-        <button class="filter-btn" data-filter="Makanan" onclick="setFilter('Makanan')">Makanan</button>
-        <button class="filter-btn" data-filter="Minuman" onclick="setFilter('Minuman')">Minuman</button>
-        <button class="filter-btn" data-filter="Konsinyasi" onclick="setFilter('Konsinyasi')">Konsinyasi</button>
-        <button class="filter-btn" data-filter="Lainnya" onclick="setFilter('Lainnya')">Lainnya</button>
+
+        <div class="custom-select filter-select" data-category="Retail">
+          <button type="button" class="custom-select-trigger filter-btn">
+            <span>Retail</span><i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="custom-select-menu">
+            <div class="custom-select-option selected" data-value="Semua"><span>Semua</span></div>
+            <div class="custom-select-option" data-value="Makanan"><span>Makanan</span></div>
+            <div class="custom-select-option" data-value="Minuman"><span>Minuman</span></div>
+            <div class="custom-select-option" data-value="Lainnya"><span>Lainnya</span></div>
+          </div>
+        </div>
+
+        <div class="custom-select filter-select" data-category="Konsinyasi">
+          <button type="button" class="custom-select-trigger filter-btn">
+            <span>Konsinyasi</span><i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="custom-select-menu">
+            <div class="custom-select-option selected" data-value="Semua"><span>Semua</span></div>
+            <div class="custom-select-option" data-value="Makanan"><span>Makanan</span></div>
+            <div class="custom-select-option" data-value="Minuman"><span>Minuman</span></div>
+          </div>
+        </div>
+
+        <div class="custom-select filter-select" data-category="Cafe">
+          <button type="button" class="custom-select-trigger filter-btn">
+            <span>Cafe</span><i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="custom-select-menu">
+            <div class="custom-select-option selected" data-value="Semua"><span>Semua</span></div>
+            <div class="custom-select-option" data-value="Makanan"><span>Makanan</span></div>
+            <div class="custom-select-option" data-value="Minuman"><span>Minuman</span></div>
+          </div>
+        </div>
       </div>
 
       <!-- RESULTS -->

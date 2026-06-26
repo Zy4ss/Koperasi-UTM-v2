@@ -175,10 +175,10 @@
           <a href="katalog.php?filter=Konsinyasi" class="btn-outline btn-sm" style="margin-top:16px">Lihat Produk</a>
         </div>
         <div class="category-card" data-aos="fade-up" data-aos-delay="200">
-          <div class="category-icon"><i class="fas fa-ellipsis-h"></i></div>
-          <h3>Lainnya</h3>
-          <p>Alat tulis, perlengkapan kuliah, aksesoris, dan peralatan pendukung lainnya untuk menunjang perkuliahan.</p>
-          <a href="katalog.php?filter=Lainnya" class="btn-outline btn-sm" style="margin-top:16px">Lihat Produk</a>
+          <div class="category-icon"><i class="fas fa-coffee"></i></div>
+          <h3>Cafe</h3>
+          <p>Menu kopi, minuman kekinian, dan cemilan ringan yang tersedia di area kampus.</p>
+          <a href="katalog.php?filter=Cafe" class="btn-outline btn-sm" style="margin-top:16px">Lihat Produk</a>
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@
         <h4>Kategori</h4>
         <a href="katalog.php?filter=Retail">Retail</a>
         <a href="katalog.php?filter=Konsinyasi">Konsinyasi</a>
-        <a href="katalog.php?filter=Lainnya">Lainnya</a>
+        <a href="katalog.php?filter=Cafe">Cafe</a>
       </div>
       <div class="footer-links">
         <h4>Kontak</h4>

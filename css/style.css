@@ -1694,12 +1694,12 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 .struktur-card {
   background: #fff;
   border-radius: var(--radius-xl);
-  padding: 28px 20px;
+  padding: 36px 28px 28px;
   text-align: center;
   box-shadow: 0 2px 16px rgba(0,0,0,0.03);
   border: 1px solid rgba(15,81,50,0.08);
   transition: transform 0.3s, box-shadow 0.3s;
-  width: 180px;
+  width: 260px;
   position: relative;
   z-index: 1;
 }
@@ -1710,14 +1710,14 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 }
 
 .struktur-avatar {
-  width: 56px;
-  height: 56px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  margin: 0 auto 12px;
+  font-size: 40px;
+  margin: 0 auto 16px;
   background: var(--primary);
   color: #fff;
   overflow: hidden;
@@ -1727,6 +1727,7 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 
 .struktur-card.ketua .struktur-avatar {
@@ -1735,16 +1736,16 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 
 .struktur-card h4 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .struktur-nama {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 2px;
@@ -1772,7 +1773,7 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 160px;
+  width: 500px;
   height: 2px;
   background: var(--primary);
   opacity: 0.3;
@@ -1780,17 +1781,26 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 }
 
 @media (max-width: 992px) {
+  .tree-connector-split::before { width: 360px; }
+}
+
+@media (max-width: 600px) {
+  .tree-connector-split::before { width: 280px; }
+}
+
+@media (max-width: 992px) {
   .tree-level-2 { gap: 24px; }
   .tree-level-3 { gap: 16px; }
-  .struktur-card { width: 150px; padding: 20px 14px; }
+  .struktur-card { width: 200px; padding: 28px 18px 22px; }
+  .struktur-avatar { width: 100px; height: 100px; font-size: 28px; }
 }
 
 @media (max-width: 600px) {
   .struktur-tree { overflow-x: auto; }
   .tree-level-2 { gap: 16px; }
   .tree-level-3 { gap: 12px; }
-  .struktur-card { width: 130px; padding: 16px 10px; }
-  .struktur-avatar { width: 44px; height: 44px; font-size: 18px; }
+  .struktur-card { width: 170px; padding: 22px 14px 18px; }
+  .struktur-avatar { width: 80px; height: 80px; font-size: 22px; }
 }
 
 /* Gallery */
@@ -1899,6 +1909,8 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 32px;
+  position: relative;
+  z-index: 10;
 }
 
 .filter-btn {
@@ -1922,6 +1934,43 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   background: var(--primary);
   color: #fff;
   border-color: var(--primary);
+}
+
+.filter-select {
+  min-width: 0;
+}
+
+.filter-select .custom-select-trigger {
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  gap: 6px;
+  justify-content: center;
+}
+
+.filter-select .custom-select-trigger:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-select .custom-select-trigger i {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.filter-select .custom-select-trigger.active i {
+  transform: rotate(180deg);
+}
+
+.filter-select .custom-select-menu {
+  min-width: 160px;
+  right: 0;
+  left: auto;
+  z-index: 10001;
 }
 
 .catalog-sort-wrap {
