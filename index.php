@@ -104,7 +104,7 @@
             <p>Kebutuhan pokok dan perlengkapan sehari-hari dengan harga terjangkau.</p>
           </div>
         </div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-card" data-aos="fade-up" data-aos-delay="50">
           <div class="service-img">
             <img src="img/layanan/koperasi.jpeg" alt="Cafe Time Secret Space" loading="lazy">
           </div>
@@ -115,38 +115,47 @@
         </div>
         <div class="service-card" data-aos="fade-up" data-aos-delay="100">
           <div class="service-img">
-            <i class="fas fa-tshirt"></i>
+            <i class="fas fa-coins"></i>
           </div>
           <div class="service-info">
-            <h3>Merchandise</h3>
-            <p>Beragam merchandise eksklusif Universitas Trunojoyo Madura.</p>
+            <h3>Simpan Pinjam</h3>
+            <p>Layanan simpan pinjam untuk memenuhi kebutuhan keuangan seluruh civitas akademika Universitas Trunojoyo Madura.</p>
           </div>
         </div>
         <div class="service-card" data-aos="fade-up" data-aos-delay="150">
           <div class="service-img">
-            <i class="fas fa-cookie-bite"></i>
+            <i class="fas fa-file-invoice"></i>
           </div>
           <div class="service-info">
-            <h3>Snack &amp; Minuman</h3>
-            <p>Aneka cemilan dan minuman segar untuk menemani aktivitas perkuliahan.</p>
+            <h3>Samsat Kampus</h3>
+            <p>Layanan pembayaran pajak kendaraan bermotor (Samsat) dengan proses cepat dan mudah di lingkungan kampus.</p>
           </div>
         </div>
         <div class="service-card" data-aos="fade-up" data-aos-delay="200">
           <div class="service-img">
-            <i class="fas fa-pen-fancy"></i>
+            <i class="fas fa-truck"></i>
           </div>
           <div class="service-info">
-            <h3>Alat Tulis</h3>
-            <p>Perlengkapan kuliah lengkap mulai dari pulpen, buku, hingga aksesoris kantor.</p>
+            <h3>Agen JNT</h3>
+            <p>Layanan pengiriman paket dan dokumen melalui agen JNT dengan tarif terjangkau.</p>
           </div>
         </div>
         <div class="service-card" data-aos="fade-up" data-aos-delay="250">
           <div class="service-img">
-            <i class="fas fa-file-invoice"></i>
+            <i class="fas fa-bus"></i>
           </div>
           <div class="service-info">
-            <h3>Pembayaran STNK</h3>
-            <p>Layanan pembayaran pajak STNK kendaraan bermotor dengan proses cepat.</p>
+            <h3>Ventour Travel</h3>
+            <p>Layanan pemesanan tiket travel dan perjalanan untuk kebutuhan liburan dan perjalanan dinas.</p>
+          </div>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-img">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="service-info">
+            <h3>Depo Isi Ulang Air</h3>
+            <p>Layanan isi ulang air minum yang bersih, higienis, dan terjangkau untuk kebutuhan sehari-hari.</p>
           </div>
         </div>
       </div>
