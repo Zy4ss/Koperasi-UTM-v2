@@ -1,0 +1,457 @@
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { apiFetch, getApiUrl } from '../utils/api';
+import { useCart } from '../context/CartContext';
+
+const Catalog = () => {
+  const { addToCart, openCart } = useCart();
+  const location = useLocation();
+
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Filter and Sort states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentFilter, setCurrentFilter] = useState('Semua Produk');
+  const [currentSubFilter, setCurrentSubFilter] = useState('Semua');
+  const [currentSort, setCurrentSort] = useState('terbaru');
+
+  // Custom Select dropdown toggle states
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState({
+    Retail: false,
+    Konsinyasi: false,
+    Cafe: false,
+  });
+
+  // Modal detail states
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalQty, setModalQty] = useState(1);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    // Parse query parameters
+    const params = new URLSearchParams(location.search);
+    const filterParam = params.get('filter');
+    if (filterParam && ['Retail', 'Konsinyasi', 'Cafe'].includes(filterParam)) {
+      setCurrentFilter(filterParam);
+      setCurrentSubFilter('Semua');
+    }
+
+    const fetchProducts = async () => {
+      try {
+        const res = await apiFetch('/api/produk?arsip=0');
+        const data = await res.json();
+        setProducts(Array.isArray(data) ? data : (data.data || []));
+      } catch (err) {
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [location.search]);
+
+  // Handle outside click to close custom dropdowns
+  useEffect(() => {
+    const handleOutsideClick = () => {
+      setIsSortOpen(false);
+      setIsFilterOpen({ Retail: false, Konsinyasi: false, Cafe: false });
+    };
+    window.addEventListener('click', handleOutsideClick);
+    return () => window.removeEventListener('click', handleOutsideClick);
+  }, []);
+
+  const handleFilterClick = (filter) => {
+    setCurrentFilter(filter);
+    setCurrentSubFilter('Semua');
+  };
+
+  const handleSubFilterSelect = (category, subCategory) => {
+    setCurrentFilter(category);
+    setCurrentSubFilter(subCategory);
+  };
+
+  // Perform search, filtering, and sorting
+  let filtered = [...products];
+
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(
+      (p) =>
+        p.nama.toLowerCase().includes(q) ||
+        p.deskripsi.toLowerCase().includes(q) ||
+        p.kategori.toLowerCase().includes(q)
+    );
+  }
+
+  if (currentFilter !== 'Semua Produk') {
+    if (currentSubFilter !== 'Semua') {
+      filtered = filtered.filter(
+        (p) => p.kategori === currentFilter && p.subkategori === currentSubFilter
+      );
+    } else {
+      filtered = filtered.filter((p) => p.kategori === currentFilter);
+    }
+  }
+
+  switch (currentSort) {
+    case 'nama-asc':
+      filtered.sort((a, b) => a.nama.localeCompare(b.nama));
+      break;
+    case 'nama-desc':
+      filtered.sort((a, b) => b.nama.localeCompare(a.nama));
+      break;
+    case 'harga-termurah':
+      filtered.sort((a, b) => a.harga - b.harga);
+      break;
+    case 'harga-tertinggi':
+      filtered.sort((a, b) => b.harga - a.harga);
+      break;
+    default:
+      filtered.sort((a, b) => b.id - a.id); // newest by ID desc
+      break;
+  }
+
+  const getSortLabel = () => {
+    switch (currentSort) {
+      case 'nama-asc': return 'Nama A-Z';
+      case 'nama-desc': return 'Nama Z-A';
+      case 'harga-termurah': return 'Harga Termurah';
+      case 'harga-tertinggi': return 'Harga Tertinggi';
+      default: return 'Terbaru';
+    }
+  };
+
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setModalQty(1);
+    document.body.classList.add('no-scroll');
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+    document.body.classList.remove('no-scroll');
+  };
+
+  return (
+    <>
+      {/* PAGE HERO */}
+      <section className="page-hero">
+        <div className="container">
+          <h1>Katalog Produk</h1>
+          <p>Temukan kebutuhan Anda di Koperasi UTM</p>
+          <div className="breadcrumb">
+            <span style={{ color: 'rgba(255,255,255,0.7)' }}>Beranda</span>
+            <i className="fas fa-chevron-right" style={{ fontSize: '10px', margin: '0 8px' }}></i>
+            <span style={{ color: '#fff' }}>Katalog</span>
+          </div>
+        </div>
+      </section>
+
+      {/* CATALOG */}
+      <section className="catalog-page">
+        <div className="container">
+          {/* TOOLBAR */}
+          <div className="catalog-toolbar">
+            <div className="catalog-search">
+              <i className="fas fa-search"></i>
+              <input 
+                type="text" 
+                placeholder="Cari produk..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoComplete="off" 
+              />
+            </div>
+            <div className="catalog-sort-wrap">
+              <i className="fas fa-arrow-down-wide-short"></i>
+              <div 
+                className="custom-select" 
+                id="catalog-sort"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsSortOpen(!isSortOpen);
+                  setIsFilterOpen({ Retail: false, Konsinyasi: false, Cafe: false });
+                }}
+              >
+                <button type="button" className={`custom-select-trigger catalog-sort ${isSortOpen ? 'active' : ''}`}>
+                  <span>{getSortLabel()}</span>
+                </button>
+                <div className={`custom-select-menu ${isSortOpen ? 'open' : ''}`}>
+                  <div 
+                    className={`custom-select-option ${currentSort === 'terbaru' ? 'selected' : ''}`}
+                    onClick={() => setCurrentSort('terbaru')}
+                  >
+                    <span>Terbaru</span>
+                  </div>
+                  <div 
+                    className={`custom-select-option ${currentSort === 'nama-asc' ? 'selected' : ''}`}
+                    onClick={() => setCurrentSort('nama-asc')}
+                  >
+                    <span>Nama A-Z</span>
+                  </div>
+                  <div 
+                    className={`custom-select-option ${currentSort === 'nama-desc' ? 'selected' : ''}`}
+                    onClick={() => setCurrentSort('nama-desc')}
+                  >
+                    <span>Nama Z-A</span>
+                  </div>
+                  <div 
+                    className={`custom-select-option ${currentSort === 'harga-termurah' ? 'selected' : ''}`}
+                    onClick={() => setCurrentSort('harga-termurah')}
+                  >
+                    <span>Harga Termurah</span>
+                  </div>
+                  <div 
+                    className={`custom-select-option ${currentSort === 'harga-tertinggi' ? 'selected' : ''}`}
+                    onClick={() => setCurrentSort('harga-tertinggi')}
+                  >
+                    <span>Harga Tertinggi</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* FILTERS */}
+          <div className="catalog-filters">
+            <button 
+              className={`filter-btn ${currentFilter === 'Semua Produk' ? 'active' : ''}`}
+              onClick={() => handleFilterClick('Semua Produk')}
+            >
+              Semua Produk
+            </button>
+
+            {/* RETAIL FILTER */}
+            <div 
+              className="custom-select filter-select"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFilterOpen({
+                  Retail: !isFilterOpen.Retail,
+                  Konsinyasi: false,
+                  Cafe: false,
+                });
+                setIsSortOpen(false);
+              }}
+            >
+              <button type="button" className={`filter-btn ${currentFilter === 'Retail' ? 'active' : ''}`}>
+                <span>{currentFilter === 'Retail' && currentSubFilter !== 'Semua' ? `Retail • ${currentSubFilter}` : 'Retail'}</span>
+                <i className="fas fa-chevron-down" style={{ marginLeft: '6px', fontSize: '11px' }}></i>
+              </button>
+              <div className={`custom-select-menu ${isFilterOpen.Retail ? 'open' : ''}`}>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Retail' && currentSubFilter === 'Semua' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Retail', 'Semua')}
+                >
+                  <span>Semua</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Retail' && currentSubFilter === 'Makanan' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Retail', 'Makanan')}
+                >
+                  <span>Makanan</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Retail' && currentSubFilter === 'Minuman' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Retail', 'Minuman')}
+                >
+                  <span>Minuman</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Retail' && currentSubFilter === 'Lainnya' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Retail', 'Lainnya')}
+                >
+                  <span>Lainnya</span>
+                </div>
+              </div>
+            </div>
+
+            {/* KONSINYASI FILTER */}
+            <div 
+              className="custom-select filter-select"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFilterOpen({
+                  Retail: false,
+                  Konsinyasi: !isFilterOpen.Konsinyasi,
+                  Cafe: false,
+                });
+                setIsSortOpen(false);
+              }}
+            >
+              <button type="button" className={`filter-btn ${currentFilter === 'Konsinyasi' ? 'active' : ''}`}>
+                <span>{currentFilter === 'Konsinyasi' && currentSubFilter !== 'Semua' ? `Konsinyasi • ${currentSubFilter}` : 'Konsinyasi'}</span>
+                <i className="fas fa-chevron-down" style={{ marginLeft: '6px', fontSize: '11px' }}></i>
+              </button>
+              <div className={`custom-select-menu ${isFilterOpen.Konsinyasi ? 'open' : ''}`}>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Konsinyasi' && currentSubFilter === 'Semua' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Konsinyasi', 'Semua')}
+                >
+                  <span>Semua</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Konsinyasi' && currentSubFilter === 'Makanan' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Konsinyasi', 'Makanan')}
+                >
+                  <span>Makanan</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Konsinyasi' && currentSubFilter === 'Minuman' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Konsinyasi', 'Minuman')}
+                >
+                  <span>Minuman</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CAFE FILTER */}
+            <div 
+              className="custom-select filter-select"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFilterOpen({
+                  Retail: false,
+                  Konsinyasi: false,
+                  Cafe: !isFilterOpen.Cafe,
+                });
+                setIsSortOpen(false);
+              }}
+            >
+              <button type="button" className={`filter-btn ${currentFilter === 'Cafe' ? 'active' : ''}`}>
+                <span>{currentFilter === 'Cafe' && currentSubFilter !== 'Semua' ? `Cafe • ${currentSubFilter}` : 'Cafe'}</span>
+                <i className="fas fa-chevron-down" style={{ marginLeft: '6px', fontSize: '11px' }}></i>
+              </button>
+              <div className={`custom-select-menu ${isFilterOpen.Cafe ? 'open' : ''}`}>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Cafe' && currentSubFilter === 'Semua' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Cafe', 'Semua')}
+                >
+                  <span>Semua</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Cafe' && currentSubFilter === 'Makanan' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Cafe', 'Makanan')}
+                >
+                  <span>Makanan</span>
+                </div>
+                <div 
+                  className={`custom-select-option ${currentFilter === 'Cafe' && currentSubFilter === 'Minuman' ? 'selected' : ''}`}
+                  onClick={() => handleSubFilterSelect('Cafe', 'Minuman')}
+                >
+                  <span>Minuman</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RESULTS */}
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '80px', color: 'var(--text-muted)' }}>Memuat katalog produk...</div>
+          ) : filtered.length === 0 ? (
+            <div className="catalog-empty">
+              <i className="fas fa-search"></i>
+              <h3>Produk Tidak Ditemukan</h3>
+              <p>Coba gunakan kata kunci atau filter lain.</p>
+            </div>
+          ) : (
+            <div id="catalog-results" className="catalog-results">
+              {filtered.map((p) => (
+                <div key={p.id} className="product-card">
+                  <div className="product-img-wrap">
+                    <img src={getApiUrl(p.gambar) || '/img/placeholder.jpg'} alt={p.nama} loading="lazy" />
+                    <span className={`product-badge ${(p.kategori || '').toLowerCase()}`}>
+                      {p.kategori}{p.subkategori ? ' • ' + p.subkategori : ''}
+                    </span>
+                    {p.tag && (
+                      <span className={`product-tag tag-${p.tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                        {p.tag}
+                      </span>
+                    )}
+                  </div>
+                  <div className="product-body">
+                    <h3>{p.nama}</h3>
+                    <div className="product-price">Rp {p.harga.toLocaleString()}</div>
+                    <p className="product-desc">{p.deskripsi}</p>
+                    <div className="product-actions">
+                      <button className="btn-outline btn-sm" onClick={() => handleOpenModal(p)}>
+                        <i className="fas fa-eye"></i> Detail
+                      </button>
+                      <button className="btn-primary btn-sm" onClick={() => addToCart(p)}>
+                        <i className="fas fa-shopping-cart"></i> Keranjang
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* PRODUCT MODAL */}
+      {selectedProduct && (
+        <div id="product-modal" className="modal active">
+          <div className="modal-overlay" onClick={handleCloseModal}></div>
+          <div className="modal-content">
+            <button id="modal-close" className="modal-close" onClick={handleCloseModal}><i className="fas fa-times"></i></button>
+            <div id="modal-body" style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
+              <img 
+                src={getApiUrl(selectedProduct.gambar) || '/img/placeholder.jpg'} 
+                alt={selectedProduct.nama} 
+                className="modal-img" 
+                style={{ width: '40%', borderRadius: '12px', objectFit: 'cover' }}
+              />
+              <div className="modal-body-content" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <h2>{selectedProduct.nama}</h2>
+                <div className="modal-price">Rp {selectedProduct.harga.toLocaleString()}</div>
+                <div className="modal-category">
+                  <span>{selectedProduct.kategori}{selectedProduct.subkategori ? ' • ' + selectedProduct.subkategori : ''}</span>
+                </div>
+                {selectedProduct.tag && (
+                  <div className="modal-tag">
+                    <span className={`tag-badge tag-${selectedProduct.tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {selectedProduct.tag}
+                    </span>
+                  </div>
+                )}
+                <p className="modal-desc" style={{ marginTop: '16px', color: 'var(--text-muted)' }}>{selectedProduct.deskripsi}</p>
+                <div className="modal-qty" style={{ marginTop: '20px' }}>
+                  <label style={{ display: 'block', fontWeight: 500, marginBottom: '8px' }}>Jumlah</label>
+                  <div className="qty-control" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button onClick={() => setModalQty(Math.max(1, modalQty - 1))} className="btn-outline" style={{ padding: '6px 12px' }}><i className="fas fa-minus"></i></button>
+                    <input 
+                      type="number" 
+                      value={modalQty} 
+                      onChange={(e) => setModalQty(Math.max(1, parseInt(e.target.value) || 1))}
+                      style={{ width: '60px', textAlign: 'center', padding: '6px', border: '1px solid var(--border)' }}
+                    />
+                    <button onClick={() => setModalQty(modalQty + 1)} className="btn-outline" style={{ padding: '6px 12px' }}><i className="fas fa-plus"></i></button>
+                  </div>
+                </div>
+                <div className="modal-actions" style={{ marginTop: '24px' }}>
+                  <button 
+                    className="btn-primary" 
+                    onClick={() => {
+                      addToCart(selectedProduct, modalQty);
+                      handleCloseModal();
+                      openCart();
+                    }}
+                  >
+                    <i className="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Catalog;
