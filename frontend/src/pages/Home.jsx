@@ -280,14 +280,13 @@ const Home = () => {
           <div className="modal-overlay" onClick={handleCloseModal}></div>
           <div className="modal-content">
             <button id="modal-close" className="modal-close" onClick={handleCloseModal}><i className="fas fa-times"></i></button>
-            <div id="modal-body" style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
+            <div className="product-modal-body">
               <img 
                 src={getApiUrl(selectedProduct.gambar) || '/img/placeholder.jpg'} 
                 alt={selectedProduct.nama} 
                 className="modal-img" 
-                style={{ width: '40%', borderRadius: '12px', objectFit: 'cover' }}
               />
-              <div className="modal-body-content" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              <div className="product-modal-content">
                 <h2>{selectedProduct.nama}</h2>
                 <div className="modal-price">Rp {selectedProduct.harga.toLocaleString()}</div>
                 <div className="modal-category">

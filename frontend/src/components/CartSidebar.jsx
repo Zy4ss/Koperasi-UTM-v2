@@ -40,8 +40,8 @@ const CartSidebar = () => {
               <p>Belum ada produk yang ditambahkan.</p>
             </div>
           ) : (
-            cart.map((item) => (
-              <div key={item.id} className="cart-item">
+            cart.map((item, index) => (
+              <div key={item.id} className="cart-item" style={{ '--delay': `${index * 0.08}s` }}>
                 <img 
                   src={getApiUrl(item.gambar) || '/img/placeholder.jpg'} 
                   alt={item.nama} 
