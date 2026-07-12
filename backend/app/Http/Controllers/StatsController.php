@@ -11,18 +11,24 @@ class StatsController extends Controller
     {
         $totalProduk = Produk::count();
         $totalKategori = Kategori::count();
-        $retailCount = Produk::where('kategori', 'Retail')->count();
-        $konsinyasiCount = Produk::where('kategori', 'Konsinyasi')->count();
         $arsipCount = Produk::where('arsip', true)->count();
+        
+        $semuaKategori = Kategori::where('tipe', 'utama')->pluck('nama');
+        $komposisiKategori = [];
+        foreach ($semuaKategori as $katName) {
+            $komposisiKategori[] = [
+                'name' => $katName,
+                'value' => Produk::where('kategori', $katName)->count()
+            ];
+        }
         
         $produkTerbaru = Produk::orderBy('id', 'desc')->limit(5)->get();
 
         return response()->json([
             'totalProduk' => $totalProduk,
             'totalKategori' => $totalKategori,
-            'retailCount' => $retailCount,
-            'konsinyasiCount' => $konsinyasiCount,
             'arsipCount' => $arsipCount,
+            'komposisiKategori' => $komposisiKategori,
             'produkTerbaru' => $produkTerbaru
         ]);
     }

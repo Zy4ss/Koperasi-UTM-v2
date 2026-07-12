@@ -22,12 +22,16 @@ const ManageProduk = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Tambah Produk');
   const [editId, setEditId] = useState('');
+
+  // Dynamic Kategori
+  const [kategoriList, setKategoriList] = useState([]);
+  const [subkategoriList, setSubkategoriList] = useState([]);
   
   // Form Fields State
   const [nama, setNama] = useState('');
   const [harga, setHarga] = useState('');
   const [tag, setTag] = useState('');
-  const [kategori, setKategori] = useState('Retail');
+  const [kategori, setKategori] = useState('');
   const [subkategori, setSubkategori] = useState('');
   const [deskripsi, setDeskripsi] = useState('');
   const [gambarFile, setGambarFile] = useState(null);
@@ -64,8 +68,22 @@ const ManageProduk = () => {
     }
   };
 
+  const fetchKategoris = async () => {
+    try {
+      const res = await apiFetch('/api/kategori');
+      if (res.ok) {
+        const data = await res.json();
+        setKategoriList(data.filter(k => k.tipe === 'utama'));
+        setSubkategoriList(data.filter(k => k.tipe === 'sub'));
+      }
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchKategoris();
     setSelectedIds([]); // Reset selection when page/search changes
   }, [showArsip, currentPage, searchQuery]);
 
@@ -149,7 +167,7 @@ const ManageProduk = () => {
     setNama('');
     setHarga('');
     setTag('');
-    setKategori('Retail');
+    setKategori('');
     setSubkategori('');
     setDeskripsi('');
     setGambarFile(null);
@@ -206,7 +224,7 @@ const ManageProduk = () => {
     fd.append('harga', harga);
     fd.append('tag', tag);
     fd.append('kategori', kategori);
-    fd.append('subkategori', kategori === 'Retail' ? subkategori : '');
+    fd.append('subkategori', subkategori);
     fd.append('deskripsi', deskripsi);
     
     if (gambarFile) {
@@ -585,9 +603,10 @@ const ManageProduk = () => {
                       onChange={(e) => setKategori(e.target.value)}
                       style={{ width: '100%', padding: '11px 14px', border: '2px solid var(--border)', borderRadius: '8px', fontSize: '14px', outline: 'none', backgroundColor: 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
                     >
-                      <option value="Retail">Retail</option>
-                      <option value="Konsinyasi">Konsinyasi</option>
-                      <option value="Lainnya">Lainnya</option>
+                      <option value="">— Pilih Kategori —</option>
+                      {kategoriList.map(k => (
+                        <option key={k.id} value={k.nama}>{k.nama}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -598,12 +617,12 @@ const ManageProduk = () => {
                     <select 
                       value={subkategori}
                       onChange={(e) => setSubkategori(e.target.value)}
-                      disabled={kategori !== 'Retail'}
                       style={{ width: '100%', padding: '11px 14px', border: '2px solid var(--border)', borderRadius: '8px', fontSize: '14px', outline: 'none', backgroundColor: 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
                     >
-                      <option value="">Tidak ada</option>
-                      <option value="Makanan">Makanan</option>
-                      <option value="Minuman">Minuman</option>
+                      <option value="">— Pilih Subkategori —</option>
+                      {subkategoriList.map(k => (
+                        <option key={k.id} value={k.nama}>{k.nama}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
