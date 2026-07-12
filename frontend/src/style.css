@@ -1538,8 +1538,10 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 
 .breadcrumb {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  flex-wrap: nowrap;
   gap: 8px;
   font-size: 13px;
   color: var(--text-muted);
@@ -2018,7 +2020,7 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 }
 
 .filter-select {
-  min-width: 0;
+  min-width: 0 !important;
 }
 
 .filter-select .custom-select-trigger {
@@ -2243,13 +2245,13 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   position: relative;
   background: var(--card-bg);
   border-radius: var(--radius-xl);
-  max-width: 580px;
+  max-width: 900px;
   width: 92%;
-  max-height: 88vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-xl);
-  transform: scale(0.9) translateY(20px);
-  transition: all 0.4s;
+  max-height: 90vh;
+  overflow: hidden; /* Hide overflow for edge-to-edge images */
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95) translateY(20px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal.active .modal-content {
@@ -2280,7 +2282,8 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 
 .modal-img {
   width: 100%;
-  height: 280px;
+  height: 100%;
+  min-height: 400px;
   object-fit: cover;
 }
 
@@ -2290,16 +2293,18 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 
 .modal-body h2 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 24px;
+  font-size: 32px;
+  font-weight: 800;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
 
 .modal-price {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   color: var(--primary);
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 .modal-category {
@@ -2310,10 +2315,10 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 
 .modal-category span {
   display: inline-block;
-  padding: 2px 12px;
+  padding: 6px 16px;
   border-radius: 100px;
-  font-weight: 500;
-  font-size: 11px;
+  font-weight: 600;
+  font-size: 13px;
   background: var(--primary-light);
   color: var(--primary);
 }
@@ -2344,9 +2349,9 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 
 .modal-desc {
   color: var(--text-muted);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.8;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   padding-top: 16px;
   border-top: 1px solid var(--border);
 }
@@ -2410,8 +2415,10 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 }
 
 .modal-actions .btn-primary {
-  flex: 1;
+  flex: 2;
   justify-content: center;
+  font-weight: 600;
+  padding: 14px 24px;
 }
 
 .modal-actions .btn-outline {
@@ -3682,12 +3689,53 @@ body.no-scroll {
 .product-modal-body {
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  min-height: 500px;
 }
+
+.product-modal-img-container {
+  width: 45%;
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
 .product-modal-body .modal-img {
-  width: 40%;
-  border-radius: 12px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.product-modal-content {
+  width: 55%;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+@media (max-width: 992px) {
+  .product-modal-body {
+    flex-direction: column;
+  }
+  .product-modal-img-container {
+    width: 100%;
+    height: 350px;
+    position: relative;
+  }
+  .product-modal-body .modal-img {
+    height: 350px;
+    position: relative;
+  }
+  .product-modal-content {
+    width: 100%;
+    padding: 32px 24px;
+    max-height: 60vh;
+  }
 }
 
 /* ===== ADMIN LOGIN ===== */

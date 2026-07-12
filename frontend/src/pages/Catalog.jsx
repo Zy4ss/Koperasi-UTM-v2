@@ -144,9 +144,9 @@ const Catalog = () => {
           <h1>Katalog Produk</h1>
           <p>Temukan kebutuhan Anda di Koperasi UTM</p>
           <div className="breadcrumb">
-            <span style={{ color: 'rgba(255,255,255,0.7)' }}>Beranda</span>
-            <i className="fas fa-chevron-right" style={{ fontSize: '10px', margin: '0 8px' }}></i>
-            <span style={{ color: '#fff' }}>Katalog</span>
+            <span>Beranda</span>
+            <i className="fas fa-chevron-right"></i>
+            <span style={{ color: 'var(--primary)', fontWeight: 600 }}>Katalog</span>
           </div>
         </div>
       </section>
@@ -400,11 +400,13 @@ const Catalog = () => {
           <div className="modal-content">
             <button id="modal-close" className="modal-close" onClick={handleCloseModal}><i className="fas fa-times"></i></button>
             <div className="product-modal-body">
-              <img 
-                src={getApiUrl(selectedProduct.gambar) || '/img/placeholder.jpg'} 
-                alt={selectedProduct.nama} 
-                className="modal-img" 
-              />
+              <div className="product-modal-img-container">
+                <img 
+                  src={getApiUrl(selectedProduct.gambar) || '/img/placeholder.jpg'} 
+                  alt={selectedProduct.nama} 
+                  className="modal-img" 
+                />
+              </div>
               <div className="product-modal-content">
                 <h2>{selectedProduct.nama}</h2>
                 <div className="modal-price">Rp {selectedProduct.harga.toLocaleString()}</div>

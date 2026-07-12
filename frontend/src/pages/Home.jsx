@@ -281,11 +281,13 @@ const Home = () => {
           <div className="modal-content">
             <button id="modal-close" className="modal-close" onClick={handleCloseModal}><i className="fas fa-times"></i></button>
             <div className="product-modal-body">
-              <img 
-                src={getApiUrl(selectedProduct.gambar) || '/img/placeholder.jpg'} 
-                alt={selectedProduct.nama} 
-                className="modal-img" 
-              />
+              <div className="product-modal-img-container">
+                <img 
+                  src={getApiUrl(selectedProduct.gambar) || '/img/placeholder.jpg'} 
+                  alt={selectedProduct.nama} 
+                  className="modal-img" 
+                />
+              </div>
               <div className="product-modal-content">
                 <h2>{selectedProduct.nama}</h2>
                 <div className="modal-price">Rp {selectedProduct.harga.toLocaleString()}</div>

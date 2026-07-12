@@ -34,9 +34,9 @@ const Contact = () => {
           <h1>Hubungi Kami</h1>
           <p>Kami siap melayani Anda</p>
           <div className="breadcrumb">
-            <span style={{ color: 'rgba(255,255,255,0.7)' }}>Beranda</span>
-            <i className="fas fa-chevron-right" style={{ fontSize: '10px', margin: '0 8px' }}></i>
-            <span style={{ color: '#fff' }}>Kontak</span>
+            <span>Beranda</span>
+            <i className="fas fa-chevron-right"></i>
+            <span style={{ color: 'var(--primary)', fontWeight: 600 }}>Kontak</span>
           </div>
         </div>
       </section>
