@@ -15,6 +15,7 @@ import Dashboard from './pages/admin/Dashboard';
 import ManageProduk from './pages/admin/ManageProduk';
 import ManageKategori from './pages/admin/ManageKategori';
 import ManageUser from './pages/admin/ManageUser';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
           <Route path="/admin/produk" element={<ManageProduk />} />
           <Route path="/admin/kategori" element={<ManageKategori />} />
           <Route path="/admin/users" element={<ManageUser />} />
+          
+          {/* 404 Route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </Router>
