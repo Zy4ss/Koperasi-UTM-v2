@@ -2979,6 +2979,65 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   font-size: 16px;
 }
 
+/* Sidebar Collapse */
+.admin-sidebar-collapse {
+  display: flex;
+  flex-direction: column;
+}
+
+.collapse-trigger {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s;
+  font-family: inherit;
+  outline: none;
+}
+
+.collapse-trigger:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.collapse-trigger i:first-child {
+  width: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.collapse-trigger span {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.collapse-trigger .chevron-icon {
+  font-size: 11px;
+}
+
+.collapse-menu {
+  display: none;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.admin-sidebar-collapse.open .collapse-menu {
+  display: flex;
+}
+
+.collapse-menu a {
+  padding: 10px 24px 10px 48px !important;
+  font-size: 13.5px !important;
+}
+
+
 .admin-sidebar-footer {
   padding: 16px 24px;
   border-top: 1px solid rgba(255,255,255,0.1);

@@ -9,27 +9,48 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalQty, setModalQty] = useState(1);
+  const [settings, setSettings] = useState({
+    hero_title_accent: 'Koperasi',
+    hero_title_sub: 'Universitas Trunojoyo Madura',
+    hero_tagline: 'Dari Anggota, Oleh Anggota, Untuk Anggota',
+    hero_desc: 'Menyediakan berbagai kebutuhan mahasiswa dengan pelayanan yang mudah, cepat, dan terpercaya.',
+    about_tag: 'Tentang Koperasi UTM',
+    about_title: 'Koperasi Universitas Trunojoyo Madura',
+    about_desc: 'Koperasi UTM adalah koperasi yang berorientasi pada pelayanan mahasiswa, mendukung ekonomi kreatif mahasiswa, dan menyediakan berbagai kebutuhan sehari-hari di lingkungan kampus.\n\nSebagai wadah pengembangan ekonomi mahasiswa, Koperasi UTM berkomitmen untuk memberikan pelayanan terbaik dengan harga yang terjangkau dan produk yang berkualitas.',
+    about_year: '1997',
+    about_badge_text: 'Melayani Mahasiswa',
+  });
 
   useEffect(() => {
     // Scroll to top
     window.scrollTo(0, 0);
 
-    // Fetch latest products
-    const fetchLatest = async () => {
+    // Fetch latest products and settings
+    const fetchData = async () => {
       try {
-        const res = await apiFetch('/api/produk?arsip=0');
-        const data = await res.json();
-        // Take top 6
-        const list = Array.isArray(data) ? data : (data.data || []);
-        setLatestProducts(list.slice(0, 6));
+        const [prodRes, settingsRes] = await Promise.all([
+          apiFetch('/api/produk?arsip=0'),
+          apiFetch('/api/settings')
+        ]);
+
+        if (prodRes.ok) {
+          const data = await prodRes.json();
+          const list = Array.isArray(data) ? data : (data.data || []);
+          setLatestProducts(list.slice(0, 6));
+        }
+
+        if (settingsRes.ok) {
+          const settingsData = await settingsRes.json();
+          setSettings(prev => ({ ...prev, ...settingsData }));
+        }
       } catch (err) {
-        console.error('Error fetching products:', err);
+        console.error('Error fetching data:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchLatest();
+    fetchData();
 
     // Trigger AOS if loaded
     if (window.AOS) {
@@ -60,12 +81,12 @@ const Home = () => {
         <div className="container hero-grid">
           <div className="hero-text" data-reveal="true" style={{ opacity: 1, transform: 'none' }}>
             <h1 className="hero-title">
-              <span className="hero-title-accent">Koperasi</span><br />
-              <span className="hero-title-sub">Universitas Trunojoyo Madura</span>
+              <span className="hero-title-accent">{settings.hero_title_accent}</span><br />
+              <span className="hero-title-sub">{settings.hero_title_sub}</span>
             </h1>
-            <p className="hero-tagline">Dari Anggota, Oleh Anggota, Untuk Anggota</p>
+            <p className="hero-tagline">{settings.hero_tagline}</p>
             <p className="hero-desc">
-              Menyediakan berbagai kebutuhan mahasiswa dengan pelayanan yang mudah, cepat, dan terpercaya.
+              {settings.hero_desc}
             </p>
             <div className="hero-actions">
               <Link to="/katalog" className="btn-primary">Jelajahi Produk <i className="fas fa-arrow-right"></i></Link>
@@ -87,16 +108,17 @@ const Home = () => {
               <div className="about-img-wrapper">
                 <img src="/img/layanan/koperasi.jpeg" alt="Kegiatan Koperasi Mahasiswa" loading="lazy" />
                 <div className="about-badge-exp">
-                  <strong>Sejak 1997</strong>
-                  <span>Melayani Mahasiswa</span>
+                  <strong>Sejak {settings.about_year}</strong>
+                  <span>{settings.about_badge_text}</span>
                 </div>
               </div>
             </div>
             <div className="about-text">
-              <span className="section-tag">Tentang Koperasi UTM</span>
-              <h2>Koperasi Universitas Trunojoyo Madura</h2>
-              <p>Koperasi UTM adalah koperasi yang berorientasi pada pelayanan mahasiswa, mendukung ekonomi kreatif mahasiswa, dan menyediakan berbagai kebutuhan sehari-hari di lingkungan kampus.</p>
-              <p>Sebagai wadah pengembangan ekonomi mahasiswa, Koperasi UTM berkomitmen untuk memberikan pelayanan terbaik dengan harga yang terjangkau dan produk yang berkualitas.</p>
+              <span className="section-tag">{settings.about_tag}</span>
+              <h2>{settings.about_title}</h2>
+              <div style={{ whiteSpace: 'pre-line', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '20px' }}>
+                {settings.about_desc}
+              </div>
               <div className="about-features">
                 <div className="about-feature-item"><i className="fas fa-check-circle"></i> Berorientasi pada mahasiswa</div>
                 <div className="about-feature-item"><i className="fas fa-check-circle"></i> Mendukung ekonomi kreatif</div>

@@ -15,6 +15,8 @@ import Dashboard from './pages/admin/Dashboard';
 import ManageProduk from './pages/admin/ManageProduk';
 import ManageKategori from './pages/admin/ManageKategori';
 import ManageUser from './pages/admin/ManageUser';
+import ManagePengurus from './pages/admin/ManagePengurus';
+import ManageSettings from './pages/admin/ManageSettings';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
           <Route path="/admin/produk" element={<ManageProduk />} />
           <Route path="/admin/kategori" element={<ManageKategori />} />
           <Route path="/admin/users" element={<ManageUser />} />
+          <Route path="/admin/pengurus" element={<ManagePengurus />} />
+          <Route path="/admin/settings" element={<ManageSettings />} />
           
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />

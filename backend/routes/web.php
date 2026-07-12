@@ -10,6 +10,8 @@ $router->get('/', function () use ($router) {
 $router->get('/api/kategori', 'KategoriController@index');
 $router->get('/api/produk', 'ProdukController@index');
 $router->post('/api/login', 'AuthController@login');
+$router->get('/api/pengurus', 'PengurusController@index');
+$router->get('/api/settings', 'SettingController@index');
 
 // Admin protected API routes
 $router->group(['middleware' => 'auth'], function () use ($router) {
@@ -38,5 +40,14 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('/api/users/{id}', 'UserController@update');
     $router->delete('/api/users/{id}', 'UserController@destroy');
     $router->post('/api/users/bulk-delete', 'UserController@bulkDestroy');
+
+    // Pengurus Management
+    $router->post('/api/pengurus', 'PengurusController@store');
+    $router->post('/api/pengurus/{id}', 'PengurusController@update');
+    $router->delete('/api/pengurus/{id}', 'PengurusController@destroy');
+    $router->post('/api/pengurus/bulk-delete', 'PengurusController@bulkDestroy');
+
+    // Settings Management
+    $router->post('/api/settings', 'SettingController@updateBatch');
 });
 

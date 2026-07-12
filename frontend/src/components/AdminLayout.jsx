@@ -1,17 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 const AdminLayout = ({ children, title }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
   const token = localStorage.getItem('kopma_admin_token');
   const adminUser = localStorage.getItem('kopma_admin_user') || 'Admin';
+
+  const [openMenus, setOpenMenus] = useState({
+    master: pathname.includes('/admin/produk') || pathname.includes('/admin/kategori'),
+    website: pathname.includes('/admin/pengurus') || pathname.includes('/admin/settings'),
+    security: pathname.includes('/admin/users'),
+  });
 
   useEffect(() => {
     if (!token) {
       navigate('/admin/login');
     }
   }, [token, navigate]);
+
+  useEffect(() => {
+    setOpenMenus({
+      master: pathname.includes('/admin/produk') || pathname.includes('/admin/kategori'),
+      website: pathname.includes('/admin/pengurus') || pathname.includes('/admin/settings'),
+      security: pathname.includes('/admin/users'),
+    });
+  }, [pathname]);
+
+  const toggleMenu = (menu) => {
+    setOpenMenus(prev => ({
+      ...prev,
+      [menu]: !prev[menu]
+    }));
+  };
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -40,15 +63,51 @@ const AdminLayout = ({ children, title }) => {
             <NavLink to="/admin" end className={({ isActive }) => isActive ? 'active' : ''}>
               <i className="fas fa-tachometer-alt"></i> <span>Dashboard</span>
             </NavLink>
-            <NavLink to="/admin/produk" className={({ isActive }) => isActive ? 'active' : ''}>
-              <i className="fas fa-box"></i> <span>Kelola Produk</span>
-            </NavLink>
-            <NavLink to="/admin/kategori" className={({ isActive }) => isActive ? 'active' : ''}>
-              <i className="fas fa-tags"></i> <span>Kelola Kategori</span>
-            </NavLink>
-            <NavLink to="/admin/users" className={({ isActive }) => isActive ? 'active' : ''}>
-              <i className="fas fa-users"></i> <span>Kelola Admin</span>
-            </NavLink>
+
+            {/* Collapse Master Data */}
+            <div className={`admin-sidebar-collapse ${openMenus.master ? 'open' : ''}`}>
+              <button type="button" className="collapse-trigger" onClick={() => toggleMenu('master')}>
+                <i className="fas fa-database"></i> <span>Master Data</span>
+                <i className={`fas fa-chevron-${openMenus.master ? 'down' : 'right'} chevron-icon`}></i>
+              </button>
+              <div className="collapse-menu">
+                <NavLink to="/admin/produk" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-box"></i> <span>Kelola Produk</span>
+                </NavLink>
+                <NavLink to="/admin/kategori" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-tags"></i> <span>Kelola Kategori</span>
+                </NavLink>
+              </div>
+            </div>
+
+            {/* Collapse Website Settings */}
+            <div className={`admin-sidebar-collapse ${openMenus.website ? 'open' : ''}`}>
+              <button type="button" className="collapse-trigger" onClick={() => toggleMenu('website')}>
+                <i className="fas fa-cogs"></i> <span>Setelan Website</span>
+                <i className={`fas fa-chevron-${openMenus.website ? 'down' : 'right'} chevron-icon`}></i>
+              </button>
+              <div className="collapse-menu">
+                <NavLink to="/admin/settings" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-sliders-h"></i> <span>Setelan Umum</span>
+                </NavLink>
+                <NavLink to="/admin/pengurus" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-sitemap"></i> <span>Kelola Pengurus</span>
+                </NavLink>
+              </div>
+            </div>
+
+            {/* Collapse Security */}
+            <div className={`admin-sidebar-collapse ${openMenus.security ? 'open' : ''}`}>
+              <button type="button" className="collapse-trigger" onClick={() => toggleMenu('security')}>
+                <i className="fas fa-shield-alt"></i> <span>Keamanan</span>
+                <i className={`fas fa-chevron-${openMenus.security ? 'down' : 'right'} chevron-icon`}></i>
+              </button>
+              <div className="collapse-menu">
+                <NavLink to="/admin/users" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-users"></i> <span>Kelola Admin</span>
+                </NavLink>
+              </div>
+            </div>
           </nav>
           <div className="admin-sidebar-footer">
             <a href="#" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> <span>Logout</span></a>
