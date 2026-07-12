@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const AdminLayout = ({ children, title }) => {
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const token = localStorage.getItem('kopma_admin_token');
   const adminUser = localStorage.getItem('kopma_admin_user') || 'Admin';
 
@@ -24,7 +25,11 @@ const AdminLayout = ({ children, title }) => {
   return (
     <div className="admin-body">
       <div className="admin-wrapper">
-        <aside className="admin-sidebar">
+        <div 
+          className={`admin-sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+        <aside className={`admin-sidebar ${isSidebarOpen ? 'active' : ''}`}>
           <div className="admin-sidebar-brand">
             <h3>
               <img src="/img/logo-koperasi.png" alt="Koperasi UTM" className="admin-logo-img" /> Koperasi <span>UTM</span>
@@ -41,6 +46,9 @@ const AdminLayout = ({ children, title }) => {
             <NavLink to="/admin/kategori" className={({ isActive }) => isActive ? 'active' : ''}>
               <i className="fas fa-tags"></i> <span>Kelola Kategori</span>
             </NavLink>
+            <NavLink to="/admin/users" className={({ isActive }) => isActive ? 'active' : ''}>
+              <i className="fas fa-users"></i> <span>Kelola Admin</span>
+            </NavLink>
           </nav>
           <div className="admin-sidebar-footer">
             <a href="#" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> <span>Logout</span></a>
@@ -49,7 +57,12 @@ const AdminLayout = ({ children, title }) => {
         
         <main className="admin-main">
           <header className="admin-header">
-            <h2>{title}</h2>
+            <div className="admin-header-left">
+              <button className="admin-sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                <i className="fas fa-bars"></i>
+              </button>
+              <h2>{title}</h2>
+            </div>
             <div className="admin-header-right">
               <span>Selamat datang, {adminUser}</span>
               <div className="admin-avatar"><i className="fas fa-user"></i></div>

@@ -15,6 +15,9 @@ const ManageProduk = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [isBulkProcessing, setIsBulkProcessing] = useState(false);
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Tambah Produk');
@@ -63,7 +66,71 @@ const ManageProduk = () => {
 
   useEffect(() => {
     fetchProducts();
+    setSelectedIds([]); // Reset selection when page/search changes
   }, [showArsip, currentPage, searchQuery]);
+
+  const toggleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(products.map(p => p.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDelete = async () => {
+    if (!window.confirm(`Yakin ingin menghapus ${selectedIds.length} produk terpilih?`)) return;
+    
+    setIsBulkProcessing(true);
+    try {
+      const res = await apiFetch('/api/produk/bulk-delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedIds })
+      });
+      if (res.status === 200) {
+        setSelectedIds([]);
+        fetchProducts();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Gagal menghapus produk');
+      }
+    } catch (err) {
+      alert('Koneksi gagal');
+    } finally {
+      setIsBulkProcessing(false);
+    }
+  };
+
+  const handleBulkArchive = async (arsipValue) => {
+    const label = arsipValue ? 'arsipkan' : 'aktifkan';
+    if (!window.confirm(`Yakin ingin meng${label} ${selectedIds.length} produk terpilih?`)) return;
+    
+    setIsBulkProcessing(true);
+    try {
+      const res = await apiFetch('/api/produk/bulk-archive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedIds, arsip: arsipValue })
+      });
+      if (res.status === 200) {
+        setSelectedIds([]);
+        fetchProducts();
+      } else {
+        const data = await res.json();
+        alert(data.error || `Gagal meng${label} produk`);
+      }
+    } catch (err) {
+      alert('Koneksi gagal');
+    } finally {
+      setIsBulkProcessing(false);
+    }
+  };
 
   // Handle edit query param if redirected from dashboard
   useEffect(() => {
@@ -245,6 +312,26 @@ const ManageProduk = () => {
     }
   };
 
+  const renderSkeletonRows = () => (
+    <>
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <tr key={i}>
+          <td><input type="checkbox" disabled /></td>
+          <td><div className="skeleton skeleton-img"></div></td>
+          <td>
+            <div className="skeleton skeleton-text"></div>
+            <div className="skeleton skeleton-text short"></div>
+          </td>
+          <td><div className="skeleton skeleton-badge"></div></td>
+          <td><div className="skeleton skeleton-text short"></div></td>
+          <td><div className="skeleton skeleton-text short"></div></td>
+          <td><div className="skeleton skeleton-badge"></div></td>
+          <td><div className="skeleton skeleton-btn"></div></td>
+        </tr>
+      ))}
+    </>
+  );
+
   return (
     <AdminLayout title="Kelola Produk">
       <div className="admin-table-wrap">
@@ -279,10 +366,41 @@ const ManageProduk = () => {
           />
         </div>
 
+        {selectedIds.length > 0 && (
+          <div style={{ background: 'rgba(15, 81, 50, 0.1)', padding: '12px 16px', borderRadius: '12px', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+            <span style={{ fontWeight: 600, color: 'var(--primary)', fontSize: '14px' }}>{selectedIds.length} produk terpilih</span>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button 
+                className="btn-outline btn-sm" 
+                onClick={() => handleBulkArchive(!showArsip)} 
+                disabled={isBulkProcessing}
+                style={{ borderColor: '#6c757d', color: '#6c757d' }}
+              >
+                <i className={`fas ${!showArsip ? 'fa-archive' : 'fa-eye'}`}></i> {!showArsip ? 'Arsipkan' : 'Aktifkan'}
+              </button>
+              <button 
+                className="btn-primary btn-sm" 
+                onClick={handleBulkDelete} 
+                disabled={isBulkProcessing}
+                style={{ background: '#dc3545' }}
+              >
+                {isBulkProcessing ? 'Memproses...' : <><i className="fas fa-trash"></i> Hapus</>}
+              </button>
+            </div>
+          </div>
+        )}
+
         <div style={{ overflowX: 'auto' }}>
           <table className="admin-table">
             <thead>
               <tr>
+                <th style={{ width: '40px' }}>
+                  <input 
+                    type="checkbox" 
+                    onChange={toggleSelectAll} 
+                    checked={products.length > 0 && selectedIds.length === products.length}
+                  />
+                </th>
                 <th>Foto</th>
                 <th>Nama Produk</th>
                 <th>Kategori</th>
@@ -293,13 +411,9 @@ const ManageProduk = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? (
+              {loading ? renderSkeletonRows() : products.length === 0 ? (
                 <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Memuat produk...</td>
-                </tr>
-              ) : products.length === 0 ? (
-                <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Tidak ada produk</td>
+                  <td colSpan="8" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>Tidak ada produk</td>
                 </tr>
               ) : (
                 products.map((p) => {
@@ -307,6 +421,13 @@ const ManageProduk = () => {
                   
                   return (
                     <tr key={p.id}>
+                      <td>
+                        <input 
+                          type="checkbox" 
+                          checked={selectedIds.includes(p.id)}
+                          onChange={() => toggleSelect(p.id)}
+                        />
+                      </td>
                       <td>
                         {p.gambar ? (
                           <img 

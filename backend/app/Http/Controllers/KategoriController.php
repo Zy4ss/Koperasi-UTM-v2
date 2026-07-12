@@ -64,4 +64,18 @@ class KategoriController extends Controller
 
         return response()->json(['message' => 'Kategori berhasil dihapus']);
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:kategoris,id',
+        ]);
+
+        Kategori::whereIn('id', $request->input('ids'))->delete();
+
+        return response()->json([
+            'message' => 'Kategori terpilih berhasil dihapus',
+        ]);
+    }
 }

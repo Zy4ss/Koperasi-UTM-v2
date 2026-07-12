@@ -46,51 +46,66 @@ const Login = () => {
   };
 
   return (
-    <div className="admin-login-body" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg)', padding: '20px' }}>
-      <div className="admin-login-card" style={{ backgroundColor: 'var(--card-bg)', borderRadius: 'var(--radius-xl)', padding: '40px', width: '100%', maxWidth: '400px', border: '1px solid var(--border)', boxShadow: 'var(--shadow-lg)' }}>
-        <div className="login-logo" style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <img src="/img/logo-koperasi.png" alt="Koperasi UTM" style={{ height: '50px', marginBottom: '8px' }} />
-          <h2 style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '22px', color: 'var(--text)' }}>Koperasi UTM</h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Panel Administrasi</p>
-        </div>
-        
-        {error && (
-          <div className="login-error" style={{ backgroundColor: '#fef2f2', color: '#dc2626', padding: '10px 14px', borderRadius: 'var(--radius-sm)', fontSize: '13px', marginBottom: '16px', textAlign: 'center' }}>
-            <i className="fas fa-exclamation-circle" style={{ marginRight: '6px' }}></i> {error}
+    <div className="login-wrapper">
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-header">
+            <div className="login-logo-box">
+              <img src="/img/logo-koperasi.png" alt="Koperasi UTM" />
+            </div>
+            <h2>Selamat Datang</h2>
+            <p>Silakan masuk ke panel administrasi</p>
           </div>
-        )}
+          
+          {error && (
+            <div className="login-error-msg">
+              <i className="fas fa-exclamation-circle"></i> {error}
+            </div>
+          )}
 
-        <form onSubmit={handleLogin}>
-          <div className="form-group" style={{ marginBottom: '18px' }}>
-            <label htmlFor="username" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--text)', marginBottom: '4px' }}>Username</label>
-            <input 
-              type="text" 
-              id="username" 
-              placeholder="Masukkan username" 
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required 
-              style={{ width: '100%', padding: '12px 14px', border: '2px solid var(--border)', borderRadius: 'var(--radius-sm)', fontSize: '14px', outline: 'none', backgroundColor: 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
-            />
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="login-form-group">
+              <label htmlFor="username">Username</label>
+              <div className="login-input-wrapper">
+                <i className="fas fa-user"></i>
+                <input 
+                  type="text" 
+                  id="username" 
+                  placeholder="Masukkan username" 
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="login-form-group">
+              <label htmlFor="password">Password</label>
+              <div className="login-input-wrapper">
+                <i className="fas fa-lock"></i>
+                <input 
+                  type="password" 
+                  id="password" 
+                  placeholder="Masukkan password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="login-btn-submit" disabled={loading}>
+              {loading ? (
+                <><span className="spinner"></span> Memproses...</>
+              ) : (
+                <>Masuk <i className="fas fa-arrow-right"></i></>
+              )}
+            </button>
+          </form>
+
+          <div className="login-footer">
+            <Link to="/"><i className="fas fa-arrow-left"></i> Kembali ke Beranda</Link>
           </div>
-          <div className="form-group" style={{ marginBottom: '18px' }}>
-            <label htmlFor="password" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--text)', marginBottom: '4px' }}>Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              placeholder="Masukkan password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required 
-              style={{ width: '100%', padding: '12px 14px', border: '2px solid var(--border)', borderRadius: 'var(--radius-sm)', fontSize: '14px', outline: 'none', backgroundColor: 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
-            />
-          </div>
-          <button type="submit" className="btn-primary" disabled={loading} style={{ width: '100%', justifyContent: 'center' }}>
-            {loading ? 'Memproses...' : <><i className="fas fa-sign-in-alt" style={{ marginRight: '6px' }}></i> Masuk</>}
-          </button>
-        </form>
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <Link to="/" style={{ fontSize: '13px', color: 'var(--text-muted)' }}><i className="fas fa-arrow-left"></i> Kembali ke Beranda</Link>
         </div>
       </div>
     </div>

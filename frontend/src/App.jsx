@@ -14,6 +14,7 @@ import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ManageProduk from './pages/admin/ManageProduk';
 import ManageKategori from './pages/admin/ManageKategori';
+import ManageUser from './pages/admin/ManageUser';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/produk" element={<ManageProduk />} />
           <Route path="/admin/kategori" element={<ManageKategori />} />
+          <Route path="/admin/users" element={<ManageUser />} />
         </Routes>
         <Footer />
       </Router>

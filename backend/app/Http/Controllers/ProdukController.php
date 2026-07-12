@@ -168,4 +168,35 @@ class ProdukController extends Controller
             'message' => "Produk berhasil $label",
         ]);
     }
+    public function bulkDestroy(Request $request)
+    {
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:produks,id',
+        ]);
+
+        Produk::whereIn('id', $request->input('ids'))->delete();
+
+        return response()->json([
+            'message' => 'Produk terpilih berhasil dihapus',
+        ]);
+    }
+
+    public function bulkArchive(Request $request)
+    {
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:produks,id',
+            'arsip' => 'required|boolean',
+        ]);
+
+        $arsip = $request->input('arsip');
+        Produk::whereIn('id', $request->input('ids'))->update(['arsip' => $arsip]);
+
+        $label = $arsip ? 'diarsipkan' : 'diaktifkan';
+
+        return response()->json([
+            'message' => "Produk terpilih berhasil $label",
+        ]);
+    }
 }
