@@ -2217,17 +2217,18 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   font-size: 14px;
 }
 
-/* ===== PRODUCT MODAL ===== */
 .modal {
   position: fixed;
   inset: 0;
   z-index: 10001;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Align items to the top to allow proper scrolling from top-to-bottom on smaller viewports */
   justify-content: center;
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s;
+  overflow-y: auto; /* Enable scrolling on the modal wrapper */
+  padding: 40px 12px; /* Add padding for scroll boundaries */
 }
 
 .modal.active {
@@ -2236,7 +2237,7 @@ body:has(.hero) #navbar.scrolled .nav-logo {
 }
 
 .modal-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: var(--modal-overlay);
 }
@@ -2247,7 +2248,7 @@ body:has(.hero) #navbar.scrolled .nav-logo {
   border-radius: var(--radius-xl);
   max-width: 900px;
   width: 92%;
-  max-height: 90vh;
+  margin: auto; /* Center card vertically and horizontally, allows wrapper scrolling when card is taller than screen */
   overflow: hidden; /* Hide overflow for edge-to-edge images */
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
   transform: scale(0.95) translateY(20px);
@@ -3676,14 +3677,7 @@ body:has(.hero) #navbar.scrolled .nav-logo {
     top: 8px;
     right: 8px;
   }
-  .modal-content {
-    max-width: 100%;
-    border-radius: var(--radius) var(--radius) 0 0;
-    margin-top: auto;
-  }
-  .modal {
-    align-items: flex-end;
-  }
+
   .modal-img {
     height: 220px;
   }
@@ -3773,27 +3767,29 @@ body.no-scroll {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow-y: auto;
-  max-height: 90vh;
 }
 
 @media (max-width: 992px) {
   .product-modal-body {
     flex-direction: column;
+    min-height: auto;
   }
   .product-modal-img-container {
     width: 100%;
-    height: 350px;
+    height: 280px;
     position: relative;
+    background: #f3f4f6;
+    border-bottom: 1px solid var(--border); /* divider so white image doesn't blend with white content */
   }
   .product-modal-body .modal-img {
-    height: 350px;
+    height: 280px;
     position: relative;
   }
   .product-modal-content {
     width: 100%;
-    padding: 32px 24px;
-    max-height: 60vh;
+    padding: 32px 24px 60px; /* padding at bottom for mobile nav bar */
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
@@ -3998,3 +3994,16 @@ body.no-scroll {
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
 }
+
+.checkout-grid-mobile {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .checkout-grid-mobile {
+    grid-template-columns: 1fr;
+  }
+}
+

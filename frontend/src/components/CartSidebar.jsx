@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { getApiUrl } from '../utils/api';
 
 const CartSidebar = () => {
+  const navigate = useNavigate();
   const {
     cart,
     isCartOpen,
@@ -11,8 +13,16 @@ const CartSidebar = () => {
     updateQty,
     removeFromCart,
     cartTotal,
-    checkoutWA,
   } = useCart();
+
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      alert('Keranjang masih kosong');
+      return;
+    }
+    closeCart();
+    navigate('/checkout');
+  };
 
   return (
     <>
@@ -72,8 +82,8 @@ const CartSidebar = () => {
             <span>Total Pembayaran</span>
             <strong id="cart-total">Rp {cartTotal.toLocaleString()}</strong>
           </div>
-          <button className="btn-primary" onClick={checkoutWA}>
-            <i className="fab fa-whatsapp"></i> Checkout via WhatsApp
+          <button className="btn-primary" onClick={handleCheckout}>
+            <i className="fas fa-shopping-cart"></i> Lanjut ke Checkout
           </button>
           <button className="btn-gold" onClick={closeCart}>
             <i className="fas fa-shopping-bag"></i> Lanjut Belanja

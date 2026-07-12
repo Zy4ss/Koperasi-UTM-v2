@@ -92,6 +92,10 @@ export const CartProvider = ({ children }) => {
     window.open(url, '_blank');
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -106,6 +110,7 @@ export const CartProvider = ({ children }) => {
         cartCount,
         cartTotal,
         checkoutWA,
+        clearCart,
         showToastNotification,
       }}
     >

@@ -8,6 +8,7 @@ const AdminLayout = ({ children, title }) => {
   
   const token = localStorage.getItem('kopma_admin_token');
   const adminUser = localStorage.getItem('kopma_admin_user') || 'Admin';
+  const role = localStorage.getItem('kopma_admin_role') || 'petugas';
 
   const [openMenus, setOpenMenus] = useState({
     master: pathname.includes('/admin/produk') || pathname.includes('/admin/kategori'),
@@ -18,8 +19,12 @@ const AdminLayout = ({ children, title }) => {
   useEffect(() => {
     if (!token) {
       navigate('/admin/login');
+    } else if (role === 'petugas') {
+      if (pathname.includes('/admin/settings') || pathname.includes('/admin/pengurus') || pathname.includes('/admin/users')) {
+        navigate('/admin');
+      }
     }
-  }, [token, navigate]);
+  }, [token, role, pathname, navigate]);
 
   useEffect(() => {
     setOpenMenus({
@@ -40,6 +45,7 @@ const AdminLayout = ({ children, title }) => {
     e.preventDefault();
     localStorage.removeItem('kopma_admin_token');
     localStorage.removeItem('kopma_admin_user');
+    localStorage.removeItem('kopma_admin_role');
     navigate('/admin/login');
   };
 
@@ -80,24 +86,36 @@ const AdminLayout = ({ children, title }) => {
               </div>
             </div>
 
-            {/* Collapse Website Settings */}
-            <div className={`admin-sidebar-collapse ${openMenus.website ? 'open' : ''}`}>
+            {/* Collapse Website Settings (Hidden for petugas) */}
+            {role !== 'petugas' && (
+              <div className={`admin-sidebar-collapse ${openMenus.website ? 'open' : ''}`}>
               <button type="button" className="collapse-trigger" onClick={() => toggleMenu('website')}>
                 <i className="fas fa-cogs"></i> <span>Setelan Website</span>
                 <i className={`fas fa-chevron-${openMenus.website ? 'down' : 'right'} chevron-icon`}></i>
               </button>
               <div className="collapse-menu">
-                <NavLink to="/admin/settings" className={({ isActive }) => isActive ? 'active' : ''}>
-                  <i className="fas fa-sliders-h"></i> <span>Setelan Umum</span>
+                <NavLink to="/admin/settings-hero" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-home"></i> <span>Setelan Hero</span>
+                </NavLink>
+                <NavLink to="/admin/settings-about" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-info-circle"></i> <span>Setelan Tentang</span>
+                </NavLink>
+                <NavLink to="/admin/settings-identity" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-bullseye"></i> <span>Setelan Visi Misi</span>
+                </NavLink>
+                <NavLink to="/admin/settings-checkout" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-shopping-bag"></i> <span>Setelan Checkout</span>
                 </NavLink>
                 <NavLink to="/admin/pengurus" className={({ isActive }) => isActive ? 'active' : ''}>
                   <i className="fas fa-sitemap"></i> <span>Kelola Pengurus</span>
                 </NavLink>
               </div>
             </div>
+            )}
 
-            {/* Collapse Security */}
-            <div className={`admin-sidebar-collapse ${openMenus.security ? 'open' : ''}`}>
+            {/* Collapse Security (Hidden for petugas) */}
+            {role !== 'petugas' && (
+              <div className={`admin-sidebar-collapse ${openMenus.security ? 'open' : ''}`}>
               <button type="button" className="collapse-trigger" onClick={() => toggleMenu('security')}>
                 <i className="fas fa-shield-alt"></i> <span>Keamanan</span>
                 <i className={`fas fa-chevron-${openMenus.security ? 'down' : 'right'} chevron-icon`}></i>
@@ -108,6 +126,7 @@ const AdminLayout = ({ children, title }) => {
                 </NavLink>
               </div>
             </div>
+            )}
           </nav>
           <div className="admin-sidebar-footer">
             <a href="#" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> <span>Logout</span></a>

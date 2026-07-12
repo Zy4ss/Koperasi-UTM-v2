@@ -379,10 +379,10 @@ const Catalog = () => {
                     <p className="product-desc">{p.deskripsi}</p>
                     <div className="product-actions">
                       <button className="btn-outline btn-sm" onClick={() => handleOpenModal(p)}>
-                        <i className="fas fa-eye"></i> Detail
+                        <i className="fas fa-eye"></i>
                       </button>
                       <button className="btn-primary btn-sm" onClick={() => addToCart(p)}>
-                        <i className="fas fa-shopping-cart"></i> Keranjang
+                        <i className="fas fa-shopping-cart"></i> Tambah
                       </button>
                     </div>
                   </div>

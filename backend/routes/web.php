@@ -12,6 +12,7 @@ $router->get('/api/produk', 'ProdukController@index');
 $router->post('/api/login', 'AuthController@login');
 $router->get('/api/pengurus', 'PengurusController@index');
 $router->get('/api/settings', 'SettingController@index');
+$router->post('/api/checkout', 'CheckoutController@process');
 
 // Admin protected API routes
 $router->group(['middleware' => 'auth'], function () use ($router) {

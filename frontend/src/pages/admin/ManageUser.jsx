@@ -17,6 +17,8 @@ const ManageUser = () => {
   // Form State
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('petugas');
+  const [currentUserRole, setCurrentUserRole] = useState('');
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -79,6 +81,8 @@ const ManageUser = () => {
     setEditId('');
     setUsername('');
     setPassword('');
+    setRole('petugas');
+    setCurrentUserRole('');
     setIsModalOpen(true);
     document.body.classList.add('no-scroll');
   };
@@ -88,6 +92,8 @@ const ManageUser = () => {
     setEditId(user.id);
     setUsername(user.username);
     setPassword(''); // Don't fill password
+    setRole(user.role || 'petugas');
+    setCurrentUserRole(user.role || '');
     setIsModalOpen(true);
     document.body.classList.add('no-scroll');
   };
@@ -105,13 +111,13 @@ const ManageUser = () => {
         response = await apiFetch(`/api/users/${editId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ username, password, role }),
         });
       } else {
         response = await apiFetch('/api/users', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ username, password, role }),
         });
       }
 
@@ -225,6 +231,7 @@ const ManageUser = () => {
                 </th>
                 <th>ID</th>
                 <th>Username</th>
+                <th>Role</th>
                 <th>Dibuat Pada</th>
                 <th>Aksi</th>
               </tr>
@@ -238,14 +245,23 @@ const ManageUser = () => {
                 users.map((u) => (
                   <tr key={u.id}>
                     <td>
-                      <input 
-                        type="checkbox" 
-                        checked={selectedIds.includes(u.id)}
-                        onChange={() => toggleSelect(u.id)}
-                      />
+                      {u.role !== 'super_admin' ? (
+                        <input 
+                          type="checkbox" 
+                          checked={selectedIds.includes(u.id)}
+                          onChange={() => toggleSelect(u.id)}
+                        />
+                      ) : (
+                        <input type="checkbox" disabled />
+                      )}
                     </td>
                     <td>#{u.id}</td>
                     <td><strong>{u.username}</strong></td>
+                    <td>
+                      <span className={`badge ${u.role === 'super_admin' ? 'badge-primary' : (u.role === 'admin' ? 'badge-success' : 'badge-secondary')}`} style={{ padding: '4px 8px', borderRadius: '6px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        {u.role === 'super_admin' ? 'Super Admin' : (u.role === 'admin' ? 'Admin' : 'Petugas')}
+                      </span>
+                    </td>
                     <td>{new Date(u.created_at).toLocaleDateString('id-ID')}</td>
                     <td>
                       <button 
@@ -256,13 +272,15 @@ const ManageUser = () => {
                       >
                         <i className="fas fa-edit"></i>
                       </button>
-                      <button 
-                        className="admin-btn-sm admin-btn-delete" 
-                        onClick={() => handleHapusUser(u.id)}
-                        title="Hapus"
-                      >
-                        <i className="fas fa-trash"></i>
-                      </button>
+                      {u.role !== 'super_admin' && (
+                        <button 
+                          className="admin-btn-sm admin-btn-delete" 
+                          onClick={() => handleHapusUser(u.id)}
+                          title="Hapus"
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -305,6 +323,21 @@ const ManageUser = () => {
                     required={!editId}
                     style={{ width: '100%', padding: '11px 14px', border: '2px solid var(--border)', borderRadius: '8px', fontSize: '14px', outline: 'none', backgroundColor: 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
                   />
+                </div>
+
+                <div style={{ marginBottom: '24px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--text)', marginBottom: '4px' }}>Hak Akses (Role)</label>
+                  <select 
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    required
+                    disabled={currentUserRole === 'super_admin'}
+                    style={{ width: '100%', padding: '11px 14px', border: '2px solid var(--border)', borderRadius: '8px', fontSize: '14px', outline: 'none', backgroundColor: currentUserRole === 'super_admin' ? 'var(--bg)' : 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
+                  >
+                    {currentUserRole === 'super_admin' && <option value="super_admin">Super Admin (Tidak dapat diubah)</option>}
+                    <option value="petugas">Petugas (Hanya Akses Master Data)</option>
+                    <option value="admin">Admin (Akses Master Data & Setelan)</option>
+                  </select>
                 </div>
                 
                 <div style={{ display: 'flex', gap: '10px' }}>

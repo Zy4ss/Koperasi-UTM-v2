@@ -15,9 +15,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::updateOrCreate(
-            ['username' => 'admin'],
-            ['password' => Hash::make('kopma123')]
-        );
+        if (User::count() === 0) {
+            User::create([
+                'username' => 'superadmin',
+                'password' => Hash::make('superadmin123'),
+                'role' => 'super_admin'
+            ]);
+        }
     }
 }

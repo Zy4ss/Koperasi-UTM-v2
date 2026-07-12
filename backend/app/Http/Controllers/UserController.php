@@ -19,11 +19,13 @@ class UserController extends Controller
         $this->validate($request, [
             'username' => 'required|string|unique:users',
             'password' => 'required|string|min:6',
+            'role' => 'required|in:admin,petugas'
         ]);
 
         $user = User::create([
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
+            'role' => $request->input('role')
         ]);
 
         return response()->json([
@@ -44,12 +46,16 @@ class UserController extends Controller
         $this->validate($request, [
             'username' => 'required|string|unique:users,username,' . $id,
             'password' => 'nullable|string|min:6',
+            'role' => 'nullable|in:admin,petugas'
         ]);
 
         $data = ['username' => $request->input('username')];
         
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->input('password'));
+        }
+        if ($request->filled('role') && $user->role !== 'super_admin') {
+            $data['role'] = $request->input('role');
         }
 
         $user->update($data);
@@ -67,6 +73,11 @@ class UserController extends Controller
 
         if (!$user) {
             return response()->json(['error' => 'User tidak ditemukan'], 404);
+        }
+
+        // Prevent deleting the super_admin
+        if ($user->role === 'super_admin') {
+            return response()->json(['error' => 'Tidak dapat menghapus super admin'], 400);
         }
 
         // Prevent deleting the last admin
@@ -97,6 +108,15 @@ class UserController extends Controller
             return response()->json([
                 'error' => 'Tidak dapat menghapus semua admin. Harus ada minimal 1 admin.'
             ], 400);
+        }
+
+        $usersToDelete = User::whereIn('id', $ids)->get();
+        foreach ($usersToDelete as $u) {
+            if ($u->role === 'super_admin') {
+                return response()->json([
+                    'error' => 'Gagal: Salah satu user yang dipilih adalah super admin.'
+                ], 400);
+            }
         }
 
         User::whereIn('id', $ids)->delete();

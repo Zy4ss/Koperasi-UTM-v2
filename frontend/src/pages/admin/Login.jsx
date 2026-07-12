@@ -33,6 +33,7 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem('kopma_admin_token', data.api_token);
         localStorage.setItem('kopma_admin_user', data.username);
+        if (data.role) localStorage.setItem('kopma_admin_role', data.role);
         navigate('/admin');
       } else {
         setError(data.message || 'Username atau password salah');

@@ -20,6 +20,9 @@ class SettingController extends Controller
         'about_badge_text' => 'Melayani Mahasiswa',
         'visi' => 'Koperasi UTM menjadi Koperasi Nasional.',
         'misi' => "Memberi Layanan, Menyediakan Produk, Jasa serta Kebutuhan Anggota.\nMembantu Menciptakan Peluang Usaha Bagi Anggota.\nMenjadi Organisasi yang Transparan dengan Good Corporate Governance.",
+        'checkout_method' => 'direct',
+        'admin_whatsapp' => '6285727877235',
+        'admin_email' => 'admin@koperasiutm.com',
     ];
 
     public function index()
