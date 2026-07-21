@@ -104,6 +104,21 @@ class PengurusController extends Controller
         return response()->json(['message' => 'Pengurus berhasil dihapus']);
     }
 
+    public function reorder(Request $request)
+    {
+        $this->validate($request, [
+            'items' => 'required|array',
+            'items.*.id' => 'required|integer|exists:pengurus,id',
+            'items.*.urutan' => 'required|integer',
+        ]);
+
+        foreach ($request->input('items') as $item) {
+            Pengurus::where('id', $item['id'])->update(['urutan' => $item['urutan']]);
+        }
+
+        return response()->json(['message' => 'Urutan berhasil diperbarui']);
+    }
+
     public function bulkDestroy(Request $request)
     {
         $this->validate($request, [

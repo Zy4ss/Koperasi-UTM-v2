@@ -106,6 +106,15 @@ const AdminLayout = ({ children, title }) => {
                 <NavLink to="/admin/settings-checkout" className={({ isActive }) => isActive ? 'active' : ''}>
                   <i className="fas fa-shopping-bag"></i> <span>Setelan Checkout</span>
                 </NavLink>
+                <NavLink to="/admin/settings-galeri" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-images"></i> <span>Galeri Kegiatan</span>
+                </NavLink>
+                <NavLink to="/admin/settings-layanan" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-concierge-bell"></i> <span>Setelan Layanan</span>
+                </NavLink>
+                <NavLink to="/admin/settings-kontak" className={({ isActive }) => isActive ? 'active' : ''}>
+                  <i className="fas fa-map-marked-alt"></i> <span>Setelan Kontak</span>
+                </NavLink>
                 <NavLink to="/admin/pengurus" className={({ isActive }) => isActive ? 'active' : ''}>
                   <i className="fas fa-sitemap"></i> <span>Kelola Pengurus</span>
                 </NavLink>

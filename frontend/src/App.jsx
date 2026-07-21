@@ -21,6 +21,9 @@ import ManageSettingsHero from './pages/admin/ManageSettingsHero';
 import ManageSettingsAbout from './pages/admin/ManageSettingsAbout';
 import ManageSettingsIdentity from './pages/admin/ManageSettingsIdentity';
 import ManageSettingsCheckout from './pages/admin/ManageSettingsCheckout';
+import ManageSettingsGaleri from './pages/admin/ManageSettingsGaleri';
+import ManageSettingsKontak from './pages/admin/ManageSettingsKontak';
+import ManageSettingsLayanan from './pages/admin/ManageSettingsLayanan';
 import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
 
@@ -59,6 +62,9 @@ const AnimatedRoutes = () => {
         <Route path="/admin/settings-about" element={<PageWrapper><ManageSettingsAbout /></PageWrapper>} />
         <Route path="/admin/settings-identity" element={<PageWrapper><ManageSettingsIdentity /></PageWrapper>} />
         <Route path="/admin/settings-checkout" element={<PageWrapper><ManageSettingsCheckout /></PageWrapper>} />
+        <Route path="/admin/settings-galeri" element={<PageWrapper><ManageSettingsGaleri /></PageWrapper>} />
+        <Route path="/admin/settings-kontak" element={<PageWrapper><ManageSettingsKontak /></PageWrapper>} />
+        <Route path="/admin/settings-layanan" element={<PageWrapper><ManageSettingsLayanan /></PageWrapper>} />
         
         {/* 404 Route */}
         <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />

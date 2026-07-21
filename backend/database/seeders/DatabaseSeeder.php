@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             KategoriTableSeeder::class,
             ProdukTableSeeder::class,
+            PengurusTableSeeder::class,
         ]);
     }
 }

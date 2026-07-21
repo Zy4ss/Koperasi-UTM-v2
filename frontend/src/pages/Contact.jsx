@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { apiFetch } from '../utils/api';
 
 const Contact = () => {
+  const [settings, setSettings] = useState({
+    kontak_alamat: '',
+    kontak_whatsapp: '',
+    kontak_email: '',
+    kontak_instagram: '',
+    kontak_maps_embed: ''
+  });
   const [formData, setFormData] = useState({
     nama: '',
     email: '',
@@ -10,6 +18,9 @@ const Contact = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    apiFetch('/api/settings').then(res => res.ok && res.json()).then(data => {
+      if (data) setSettings(prev => ({ ...prev, ...data }));
+    }).catch(() => {});
   }, []);
 
   const handleChange = (e) => {
@@ -53,7 +64,7 @@ const Contact = () => {
                 <div className="contact-detail-icon"><i className="fas fa-map-marker-alt"></i></div>
                 <div className="contact-detail-text">
                   <h4>Alamat</h4>
-                  <p>Sekretariat Koperasi UTM<br />Gedung Cakra, Kampus Universitas Trunojoyo Madura<br />Jl. Raya Telang PO BOX 2 Kamal, Bangkalan 69162</p>
+                  <p>{settings.kontak_alamat.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</p>
                 </div>
               </div>
 
@@ -61,7 +72,7 @@ const Contact = () => {
                 <div className="contact-detail-icon"><i className="fab fa-whatsapp"></i></div>
                 <div className="contact-detail-text">
                   <h4>WhatsApp</h4>
-                  <p>+62 811-3300-676</p>
+                  <p>{settings.kontak_whatsapp}</p>
                 </div>
               </div>
 
@@ -69,7 +80,7 @@ const Contact = () => {
                 <div className="contact-detail-icon"><i className="fas fa-envelope"></i></div>
                 <div className="contact-detail-text">
                   <h4>Email</h4>
-                  <p>koperasitrunojoyo@gmail.com</p>
+                  <p>{settings.kontak_email}</p>
                 </div>
               </div>
 
@@ -77,7 +88,7 @@ const Contact = () => {
                 <div className="contact-detail-icon"><i className="fab fa-instagram"></i></div>
                 <div className="contact-detail-text">
                   <h4>Instagram</h4>
-                  <p>@koperasiutm</p>
+                  <p>{settings.kontak_instagram}</p>
                 </div>
               </div>
             </div>
@@ -130,11 +141,11 @@ const Contact = () => {
 
           <div className="map-wrap">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.615379733752!2d112.7271187!3d-7.1172706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd803dd04854303%3A0xa436f3258944c98f!2sGedung%20Cakra%20-%20UTM!5e0!3m2!1sid!2sid!4v1710000000000" 
+              src={settings.kontak_maps_embed}
               allowFullScreen 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              title="Google Maps Gedung Cakra"
+              title="Peta Lokasi Koperasi UTM"
             ></iframe>
           </div>
         </div>

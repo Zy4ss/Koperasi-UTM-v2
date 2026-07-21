@@ -47,8 +47,12 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/api/pengurus/{id}', 'PengurusController@update');
     $router->delete('/api/pengurus/{id}', 'PengurusController@destroy');
     $router->post('/api/pengurus/bulk-delete', 'PengurusController@bulkDestroy');
+    $router->post('/api/pengurus/reorder', 'PengurusController@reorder');
 
     // Settings Management
     $router->post('/api/settings', 'SettingController@updateBatch');
+
+    // File Upload
+    $router->post('/api/upload', 'UploadController@uploadImage');
 });
 

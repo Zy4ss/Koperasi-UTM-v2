@@ -40,11 +40,36 @@ const ManagePengurus = () => {
     fetchPengurus();
   }, []);
 
-  const toggleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedIds(pengurusList.map(p => p.id));
-    } else {
-      setSelectedIds([]);
+  const getGrouped = () => {
+    const groups = { 1: [], 2: [], 3: [] };
+    pengurusList.forEach(p => {
+      if (groups[p.level]) groups[p.level].push(p);
+    });
+    return groups;
+  };
+
+  const moveItem = async (id, direction) => {
+    const item = pengurusList.find(p => p.id === id);
+    if (!item) return;
+
+    const sameLevel = pengurusList.filter(p => p.level === item.level).sort((a, b) => a.urutan - b.urutan);
+    const idx = sameLevel.findIndex(p => p.id === id);
+    const target = idx + direction;
+    if (target < 0 || target >= sameLevel.length) return;
+
+    const swapped = [...sameLevel];
+    [swapped[idx], swapped[target]] = [swapped[target], swapped[idx]];
+    const updates = swapped.map((p, i) => ({ id: p.id, urutan: i }));
+
+    try {
+      const res = await apiFetch('/api/pengurus/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: updates })
+      });
+      if (res.ok) fetchPengurus();
+    } catch (err) {
+      alert('Gagal mengubah urutan');
     }
   };
 
@@ -167,21 +192,12 @@ const ManagePengurus = () => {
     }
   };
 
-  const getLevelLabel = (lvl) => {
-    switch (lvl) {
-      case 1: return 'Tingkat 1 (Ketua)';
-      case 2: return 'Tingkat 2 (Pengurus Inti/BPH)';
-      case 3: return 'Tingkat 3 (Sie/Divisi)';
-      default: return 'Tingkat 3';
-    }
-  };
-
   const renderSkeletonRows = () => (
     <>
-      {[1, 2, 3, 4, 5].map((i) => (
+      {[1, 2, 3].map((i) => (
         <tr key={i}>
-          <td><input type="checkbox" disabled /></td>
-          <td><div className="skeleton skeleton-text" style={{ width: '30px' }}></div></td>
+          <td style={{ width: '40px' }}><input type="checkbox" disabled /></td>
+          <td style={{ width: '50px' }}><div className="skeleton skeleton-text" style={{ width: '30px' }}></div></td>
           <td>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div className="skeleton" style={{ width: '40px', height: '40px', borderRadius: '50%' }}></div>
@@ -189,10 +205,9 @@ const ManagePengurus = () => {
             </div>
           </td>
           <td><div className="skeleton skeleton-text" style={{ width: '100px' }}></div></td>
-          <td><div className="skeleton skeleton-text" style={{ width: '120px' }}></div></td>
-          <td><div className="skeleton skeleton-text" style={{ width: '30px' }}></div></td>
+          <td><div className="skeleton" style={{ width: '60px', height: '28px', borderRadius: '4px' }}></div></td>
           <td>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '6px' }}>
               <div className="skeleton" style={{ width: '32px', height: '32px', borderRadius: '4px' }}></div>
               <div className="skeleton" style={{ width: '32px', height: '32px', borderRadius: '4px' }}></div>
             </div>
@@ -234,95 +249,93 @@ const ManagePengurus = () => {
           </div>
         )}
 
-        {/* Table Wrap */}
-        <div className="admin-table-wrap" style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: '16px' }}>
-          <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr>
-                <th style={{ width: '40px' }}>
-                  <input 
-                    type="checkbox" 
-                    onChange={toggleSelectAll} 
-                    checked={pengurusList.length > 0 && selectedIds.length === pengurusList.length} 
-                  />
-                </th>
-                <th style={{ width: '50px' }}>No</th>
-                <th>Nama</th>
-                <th>Jabatan</th>
-                <th>Tingkat/Level</th>
-                <th style={{ width: '80px' }}>Urutan</th>
-                <th style={{ width: '120px' }}>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? renderSkeletonRows() : pengurusList.length === 0 ? (
+        {/* Table / Grouped Display */}
+        {loading ? (
+          <div className="admin-table-wrap" style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: '16px' }}>
+            <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
                 <tr>
-                  <td colSpan="7" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
-                    Belum ada data pengurus. Klik Tambah Pengurus untuk memulai.
-                  </td>
+                  <th style={{ width: '40px' }}><input type="checkbox" disabled /></th>
+                  <th style={{ width: '50px' }}>No</th>
+                  <th>Nama</th>
+                  <th>Jabatan</th>
+                  <th>Tingkat</th>
+                  <th style={{ width: '80px' }}>Urut</th>
+                  <th style={{ width: '150px' }}>Aksi</th>
                 </tr>
-              ) : (
-                pengurusList.map((p, index) => (
-                  <tr key={p.id}>
-                    <td>
-                      <input 
-                        type="checkbox" 
-                        checked={selectedIds.includes(p.id)} 
-                        onChange={() => toggleSelect(p.id)} 
-                      />
-                    </td>
-                    <td>{index + 1}</td>
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <img 
-                          src={p.foto ? getApiUrl(p.foto) : '/img/layanan/avatar.png'} 
-                          alt={p.nama} 
-                          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} 
-                          onError={(e) => { e.target.src = '/img/layanan/avatar.png' }}
-                        />
-                        <span style={{ fontWeight: 600, color: 'var(--text)' }}>{p.nama}</span>
-                      </div>
-                    </td>
-                    <td>{p.jabatan}</td>
-                    <td>
-                      <span style={{ 
-                        padding: '4px 10px', 
-                        borderRadius: '20px', 
-                        fontSize: '12px', 
-                        fontWeight: 600,
-                        backgroundColor: p.level === 1 ? 'rgba(15, 81, 50, 0.1)' : p.level === 2 ? 'rgba(0, 123, 255, 0.1)' : 'rgba(108, 117, 125, 0.1)',
-                        color: p.level === 1 ? 'var(--primary)' : p.level === 2 ? '#0056b3' : '#495057'
-                      }}>
-                        {getLevelLabel(p.level)}
-                      </span>
-                    </td>
-                    <td>{p.urutan}</td>
-                    <td>
-                      <div style={{ display: 'flex', gap: '6px' }}>
-                        <button 
-                          onClick={() => handleOpenEditModal(p)}
-                          className="btn-outline btn-sm" 
-                          style={{ padding: '6px 10px' }}
-                          title="Edit"
-                        >
-                          <i className="fas fa-edit"></i>
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(p.id)}
-                          className="btn-outline btn-sm" 
-                          style={{ padding: '6px 10px', color: '#dc3545', borderColor: 'rgba(220,53,69,0.2)' }}
-                          title="Hapus"
-                        >
-                          <i className="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>{renderSkeletonRows()}</tbody>
+            </table>
+          </div>
+        ) : pengurusList.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px', color: 'var(--text-muted)', border: '1px solid var(--border)', borderRadius: '16px' }}>
+            <i className="fas fa-sitemap" style={{ fontSize: '48px', opacity: 0.3, marginBottom: '16px' }}></i>
+            <p>Belum ada data pengurus. Klik Tambah Pengurus untuk memulai.</p>
+          </div>
+        ) : (
+          (() => {
+            const groups = getGrouped();
+            const levelMeta = {
+              1: { label: 'Ketua', icon: 'fa-crown', color: 'var(--primary)', bg: 'rgba(15,81,50,0.06)' },
+              2: { label: 'Pengurus Inti (BPH)', icon: 'fa-user-tie', color: '#0056b3', bg: 'rgba(0,123,255,0.06)' },
+              3: { label: 'Sie / Divisi', icon: 'fa-users', color: '#495057', bg: 'rgba(108,117,125,0.06)' },
+            };
+            let globalIdx = 0;
+            return [1, 2, 3].map(lvl => {
+              const items = groups[lvl] || [];
+              const meta = levelMeta[lvl];
+              if (items.length === 0) return null;
+              return (
+                <div key={lvl} style={{ marginBottom: '24px', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
+                  <div style={{ padding: '14px 20px', background: meta.bg, borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <i className={`fas ${meta.icon}`} style={{ color: meta.color, fontSize: '16px' }}></i>
+                    <span style={{ fontWeight: 700, fontSize: '15px', color: meta.color }}>{meta.label}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--text-muted)' }}>{items.length} orang</span>
+                  </div>
+                  <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                    <tbody>
+                      {items.map((p, idx) => {
+                        globalIdx++;
+                        const sameLevel = groups[lvl] || [];
+                        return (
+                          <tr key={p.id}>
+                            <td style={{ width: '40px', padding: '12px 8px' }}>
+                              <input type="checkbox" checked={selectedIds.includes(p.id)} onChange={() => toggleSelect(p.id)} />
+                            </td>
+                            <td style={{ width: '50px', padding: '12px 8px' }}>{idx + 1}</td>
+                            <td style={{ padding: '12px 8px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <img src={p.foto ? getApiUrl(p.foto) : '/img/layanan/avatar.png'} alt={p.nama} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }} onError={(e) => { e.target.src = '/img/layanan/avatar.png' }} />
+                                <span style={{ fontWeight: 600, color: 'var(--text)' }}>{p.nama}</span>
+                              </div>
+                            </td>
+                            <td style={{ padding: '12px 8px' }}>{p.jabatan}</td>
+                            <td style={{ padding: '12px 8px' }}>
+                              <div style={{ display: 'flex', gap: '4px' }}>
+                                <button type="button" onClick={() => moveItem(p.id, -1)} disabled={idx === 0} title="Naik" style={{ padding: '4px 7px', fontSize: '11px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', cursor: idx === 0 ? 'not-allowed' : 'pointer', opacity: idx === 0 ? 0.3 : 1, color: 'var(--text)' }}>
+                                  <i className="fas fa-chevron-up"></i>
+                                </button>
+                                <button type="button" onClick={() => moveItem(p.id, 1)} disabled={idx === sameLevel.length - 1} title="Turun" style={{ padding: '4px 7px', fontSize: '11px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', cursor: idx === sameLevel.length - 1 ? 'not-allowed' : 'pointer', opacity: idx === sameLevel.length - 1 ? 0.3 : 1, color: 'var(--text)' }}>
+                                  <i className="fas fa-chevron-down"></i>
+                                </button>
+                              </div>
+                            </td>
+                            <td style={{ padding: '12px 8px' }}>
+                              <div style={{ display: 'flex', gap: '6px' }}>
+                                <button onClick={() => handleOpenEditModal(p)} className="btn-outline btn-sm" style={{ padding: '6px 10px' }} title="Edit"><i className="fas fa-edit"></i></button>
+                                <button onClick={() => handleDelete(p.id)} className="btn-outline btn-sm" style={{ padding: '6px 10px', color: '#dc3545', borderColor: 'rgba(220,53,69,0.2)' }} title="Hapus"><i className="fas fa-trash"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            });
+          })()
+        )}
       </div>
 
       {/* FORM MODAL */}

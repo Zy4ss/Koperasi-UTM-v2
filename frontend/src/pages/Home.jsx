@@ -19,6 +19,9 @@ const Home = () => {
     about_desc: 'Koperasi UTM adalah koperasi yang berorientasi pada pelayanan mahasiswa, mendukung ekonomi kreatif mahasiswa, dan menyediakan berbagai kebutuhan sehari-hari di lingkungan kampus.\n\nSebagai wadah pengembangan ekonomi mahasiswa, Koperasi UTM berkomitmen untuk memberikan pelayanan terbaik dengan harga yang terjangkau dan produk yang berkualitas.',
     about_year: '1997',
     about_badge_text: 'Melayani Mahasiswa',
+    layanan_judul: 'Layanan Koperasi UTM',
+    layanan_deskripsi: 'Berbagai layanan yang tersedia untuk memenuhi kebutuhan seluruh civitas akademika Universitas Trunojoyo Madura.',
+    layanan_items: '[]',
   });
 
   useEffect(() => {
@@ -106,7 +109,7 @@ const Home = () => {
           <div className="about-grid">
             <div className="about-image">
               <div className="about-img-wrapper">
-                <img src="/img/layanan/koperasi.jpeg" alt="Kegiatan Koperasi Mahasiswa" loading="lazy" />
+                <img src={getApiUrl('img/layanan/koperasi.jpeg')} alt="Kegiatan Koperasi Mahasiswa" loading="lazy" />
                 <div className="about-badge-exp">
                   <strong>Sejak {settings.about_year}</strong>
                   <span>{settings.about_badge_text}</span>
@@ -131,80 +134,41 @@ const Home = () => {
       </section>
 
       {/* LAYANAN */}
-      <section id="layanan" className="section services">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-tag">Layanan</span>
-            <h2>Layanan Koperasi UTM</h2>
-            <p>Berbagai layanan yang tersedia untuk memenuhi kebutuhan seluruh civitas akademika Universitas Trunojoyo Madura.</p>
-          </div>
-          <div className="services-grid">
-            <div className="service-card">
-              <div className="service-img">
-                <img src="/img/layanan/minimarket.jpeg" alt="Mini Market" loading="lazy" />
+      {(() => {
+        let layananItems = [];
+        try {
+          layananItems = JSON.parse(settings.layanan_items || '[]');
+        } catch {}
+        if (!Array.isArray(layananItems)) layananItems = [];
+        return layananItems.length > 0 ? (
+          <section id="layanan" className="section services">
+            <div className="container">
+              <div className="section-header">
+                <span className="section-tag">Layanan</span>
+                <h2>{settings.layanan_judul || 'Layanan Koperasi UTM'}</h2>
+                <p>{settings.layanan_deskripsi || ''}</p>
               </div>
-              <div className="service-info">
-                <h3>Mini Market</h3>
-                <p>Kebutuhan pokok dan perlengkapan sehari-hari dengan harga terjangkau.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-img">
-                <img src="/img/layanan/koperasi.jpeg" alt="Cafe Time Secret Space" loading="lazy" />
-              </div>
-              <div className="service-info">
-                <h3>Cafe Time Secret Space</h3>
-                <p>Tempat nongkrong santai dengan berbagai menu kopi dan minuman kekinian, serta spot aesthetic untuk foto dan bersantai.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-img">
-                <i className="fas fa-coins" style={{ fontSize: '32px', color: '#0F5132', margin: '20px auto 0' }}></i>
-              </div>
-              <div className="service-info">
-                <h3>Simpan Pinjam</h3>
-                <p>Layanan simpan pinjam untuk memenuhi kebutuhan keuangan seluruh civitas akademika Universitas Trunojoyo Madura.</p>
+              <div className="services-grid">
+                {layananItems.map((item, idx) => (
+                  <div key={idx} className="service-card">
+                    <div className="service-img">
+                      {item.gambar ? (
+                        <img src={getApiUrl(item.gambar)} alt={item.judul} loading="lazy" />
+                      ) : (
+                        <i className={`fas ${item.ikon || 'fa-cogs'}`} style={{ fontSize: '32px', color: '#0F5132', margin: '20px auto 0' }}></i>
+                      )}
+                    </div>
+                    <div className="service-info">
+                      <h3>{item.judul}</h3>
+                      <p>{item.deskripsi}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="service-card">
-              <div className="service-img">
-                <i className="fas fa-file-invoice" style={{ fontSize: '32px', color: '#0F5132', margin: '20px auto 0' }}></i>
-              </div>
-              <div className="service-info">
-                <h3>Samsat Kampus</h3>
-                <p>Layanan pembayaran pajak kendaraan bermotor (Samsat) dengan proses cepat dan mudah di lingkungan kampus.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-img">
-                <i className="fas fa-truck" style={{ fontSize: '32px', color: '#0F5132', margin: '20px auto 0' }}></i>
-              </div>
-              <div className="service-info">
-                <h3>Agen JNT</h3>
-                <p>Layanan pengiriman paket dan dokumen melalui agen JNT dengan tarif terjangkau.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-img">
-                <i className="fas fa-bus" style={{ fontSize: '32px', color: '#0F5132', margin: '20px auto 0' }}></i>
-              </div>
-              <div className="service-info">
-                <h3>Ventour Travel</h3>
-                <p>Layanan pemesanan tiket travel dan perjalanan untuk kebutuhan liburan dan perjalanan dinas.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-img">
-                <i className="fas fa-mobile-alt" style={{ fontSize: '32px', color: '#0F5132', margin: '20px auto 0' }}></i>
-              </div>
-              <div className="service-info">
-                <h3>Depo Isi Ulang Air</h3>
-                <p>Layanan isi ulang air minum yang bersih, higienis, dan terjangkau untuk kebutuhan sehari-hari.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        ) : null;
+      })()}
 
       {/* KATEGORI */}
       <section id="kategori" className="section categories">
