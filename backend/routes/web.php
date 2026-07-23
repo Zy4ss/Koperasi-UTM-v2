@@ -22,15 +22,12 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('/api/kategori/{id}', 'KategoriController@destroy');
     $router->post('/api/kategori/bulk-delete', 'KategoriController@bulkDestroy');
 
-    // Produk CRUD
+    // Produk CRUD (static routes BEFORE variable routes)
     $router->post('/api/produk', 'ProdukController@store');
+    $router->post('/api/produk/bulk-delete', 'ProdukController@bulkDestroy');
     $router->post('/api/produk/{id}', 'ProdukController@update'); // POST to support multipart/form-data upload easily
     $router->delete('/api/produk/{id}', 'ProdukController@destroy');
     $router->post('/api/produk/{id}/archive', 'ProdukController@archive');
-    
-    // Bulk Produk Actions
-    $router->post('/api/produk/bulk-delete', 'ProdukController@bulkDestroy');
-    $router->post('/api/produk/bulk-archive', 'ProdukController@bulkArchive');
 
     // Dashboard Stats
     $router->get('/api/stats', 'StatsController@index');
@@ -42,12 +39,12 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('/api/users/{id}', 'UserController@destroy');
     $router->post('/api/users/bulk-delete', 'UserController@bulkDestroy');
 
-    // Pengurus Management
+    // Pengurus Management (static routes BEFORE variable routes)
     $router->post('/api/pengurus', 'PengurusController@store');
-    $router->post('/api/pengurus/{id}', 'PengurusController@update');
-    $router->delete('/api/pengurus/{id}', 'PengurusController@destroy');
     $router->post('/api/pengurus/bulk-delete', 'PengurusController@bulkDestroy');
     $router->post('/api/pengurus/reorder', 'PengurusController@reorder');
+    $router->post('/api/pengurus/{id}', 'PengurusController@update');
+    $router->delete('/api/pengurus/{id}', 'PengurusController@destroy');
 
     // Settings Management
     $router->post('/api/settings', 'SettingController@updateBatch');
