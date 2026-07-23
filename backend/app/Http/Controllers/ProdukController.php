@@ -90,7 +90,7 @@ class ProdukController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $produk = Produk::find($id);
 
@@ -131,7 +131,7 @@ class ProdukController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $produk = Produk::find($id);
 
@@ -146,7 +146,7 @@ class ProdukController extends Controller
         ]);
     }
 
-    public function archive(Request $request, $id)
+    public function archive(Request $request, int $id)
     {
         $produk = Produk::find($id);
 

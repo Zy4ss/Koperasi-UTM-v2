@@ -245,17 +245,7 @@ const ManageProduk = () => {
     const label = newArsip ? 'nonaktifkan' : 'aktifkan';
     const labelTitle = newArsip ? 'Nonaktifkan' : 'Aktifkan';
 
-    (window.Swal || window).fire ? window.Swal.fire({
-      title: `${labelTitle} produk ini?`,
-      text: `Produk akan di${label}. Produk ${newArsip ? 'tidak akan' : 'akan'} muncul di halaman utama.`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: newArsip ? '#6C757D' : '#0F5132',
-      cancelButtonColor: '#6C757D',
-      confirmButtonText: `Ya, ${label}!`,
-      cancelButtonText: 'Batal'
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
+    const action = async () => {
       try {
         const res = await apiFetch(`/api/produk/${id}/archive`, {
           method: 'POST',
@@ -272,22 +262,35 @@ const ManageProduk = () => {
           }
           throw new Error(msg);
         }
-        window.Swal.fire('Berhasil!', `Produk berhasil di${label}.`, 'success');
+        if (window.Swal) {
+          window.Swal.fire('Berhasil!', `Produk berhasil di${label}.`, 'success');
+        }
         fetchProducts();
       } catch (err) {
-        window.Swal.fire('Gagal', err.message, 'error');
+        if (window.Swal) {
+          window.Swal.fire('Gagal', err.message, 'error');
+        } else {
+          alert(err.message);
+        }
       }
-    }) : (() => {
-      if (window.confirm(`Yakin ingin meng${label} produk ini?`)) {
-        apiFetch(`/api/produk/${id}/archive`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ arsip: newArsip }),
-        }).then((res) => {
-          if (res.ok) fetchProducts();
-        });
-      }
-    })();
+    };
+
+    if (window.Swal) {
+      window.Swal.fire({
+        title: `${labelTitle} produk ini?`,
+        text: `Produk akan di${label}. Produk ${newArsip ? 'tidak akan' : 'akan'} muncul di halaman utama.`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: newArsip ? '#6C757D' : '#0F5132',
+        cancelButtonColor: '#6C757D',
+        confirmButtonText: `Ya, ${label}!`,
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) action();
+      });
+    } else if (window.confirm(`Yakin ingin meng${label} produk ini?`)) {
+      action();
+    }
   };
 
   const handleHapusProduk = (id) => {
@@ -592,9 +595,15 @@ const ManageProduk = () => {
                       style={{ width: '100%', padding: '11px 14px', border: '2px solid var(--border)', borderRadius: '8px', fontSize: '14px', outline: 'none', backgroundColor: 'var(--surface)', color: 'var(--text)', boxSizing: 'border-box' }}
                     >
                       <option value="">— Pilih Subkategori —</option>
-                      {subkategoriList.map(k => (
-                        <option key={k.id} value={k.nama}>{k.nama}</option>
-                      ))}
+                      {(() => {
+                        const selectedMain = kategoriList.find(k => k.nama === kategori);
+                        const filtered = selectedMain
+                          ? subkategoriList.filter(s => s.parent_id === selectedMain.id)
+                          : [];
+                        return filtered.map(k => (
+                          <option key={k.id} value={k.nama}>{k.nama}</option>
+                        ));
+                      })()}
                     </select>
                   </div>
                   <div>
